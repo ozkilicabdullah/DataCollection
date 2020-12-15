@@ -8,7 +8,11 @@ namespace SwEpApi.Entities.Base
 {
     public class EntityStockListForEpBase : EntityStockBase
     {
-
+        public int TotalCount
+        {
+            get { return (int)EntityStockListForEpFields.TotalCount[this]; }
+            set { EntityStockListForEpFields.TotalCount[this] = (int)value; }
+        }
         public static EntityStockListForEpBaseRowFields EntityStockListForEpFields = new EntityStockListForEpBaseRowFields().Init();
 
         public EntityStockListForEpBase()
@@ -19,6 +23,7 @@ namespace SwEpApi.Entities.Base
 
         public class EntityStockListForEpBaseRowFields : EntityStockBaseRowFields
         {
+            public Int32Field TotalCount;
         }
     }
 }

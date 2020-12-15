@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SwEpApi.Services.Tenants.Base.Erp
 {
-    public class StockListForEpServiceBase : ITenantService
+    public class StockQuantityListForEpServiceBase : ITenantService
     {
         private readonly IConnectionService ConnectionService;
 
-        public StockListForEpServiceBase(IConnectionService connectionService)
+        public StockQuantityListForEpServiceBase(IConnectionService connectionService)
         {
             ConnectionService = connectionService;
         }
@@ -27,9 +27,9 @@ namespace SwEpApi.Services.Tenants.Base.Erp
             };
 
            ActionRequest Action = Payload["Action"] as ActionRequest;
-           StockListForEpRequestParams Params = new StockListForEpRequestParams();
-           Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as StockListForEpRequestParams;
-            response.Errors = Params.ValidateModel(new StockListForEpValidator());
+            StockQuantityListForEpRequestParams Params = new StockQuantityListForEpRequestParams();
+           Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as StockQuantityListForEpRequestParams;
+            
             if(string.IsNullOrEmpty(Params.Barcode) && 
                 string.IsNullOrEmpty(Params.ModelCode) && 
                 string.IsNullOrEmpty(Params.ProductCode) && 
@@ -44,8 +44,6 @@ namespace SwEpApi.Services.Tenants.Base.Erp
             var dyp = new Dapper.DynamicParameters();
             dyp.Add("pageNo", dbType: DbType.Int32, direction: ParameterDirection.Input, value: Params.pageNo);
             dyp.Add("pageSize", dbType: DbType.Int32, direction: ParameterDirection.Input, value: Params.pageSize);
-            dyp.Add("langCode", dbType: DbType.String, direction: ParameterDirection.Input,size:2, value: Params.LangCode);
-            dyp.Add("priceCurrencyCode", dbType: DbType.String, direction: ParameterDirection.Input,size:3, value: Params.PriceCurrencyCode);
             dyp.Add("startDate", dbType: DbType.DateTime, direction: ParameterDirection.Input, value: Params.StartDate);
             dyp.Add("endDate", dbType: DbType.DateTime, direction: ParameterDirection.Input, value: Params.EndDate);
             dyp.Add("modelCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 40, value: Params.ModelCode);
@@ -54,7 +52,7 @@ namespace SwEpApi.Services.Tenants.Base.Erp
 
             var posts = await ConnectionService.ScopeAsync(Action.AppKey, cnn =>
            {
-                return cnn.QueryAsync<EntityStockListForEpBase>("sp_SwEpApi_GetStockListForEp", 
+                return cnn.QueryAsync<EntityStockQuantityListForEpBase>("sp_SwEpApi_GetStockQuantityListForEp", 
                   param: dyp,                 
                   commandType: CommandType.StoredProcedure);
             });

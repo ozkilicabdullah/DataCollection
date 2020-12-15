@@ -310,7 +310,8 @@ namespace SwEpApi.Helpers
 
             List<string> errors = new List<string>();
             foreach (var item in failures)
-                errors.Add(string.Format("{0} => Row: {1}", item.ErrorMessage, item.PropertyName));
+                errors.Add(item.ErrorMessage);
+            //errors.Add(string.Format("{0} => Row: {1}", item.ErrorMessage, item.PropertyName));
 
             return errors;
         }
