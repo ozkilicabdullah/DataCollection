@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Newtonsoft.Json;
 using SwEpApi.Entities.Base;
 using SwEpApi.Helpers;
 using SwEpApi.Model.Request;
@@ -58,7 +59,13 @@ namespace SwEpApi.Services.Tenants.Base.Erp
                   param: dyp,                 
                   commandType: CommandType.StoredProcedure);
             });
-            
+
+            foreach (EntityStockListForEpBase cust in posts)
+            {
+                cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);
+                cust.ProductImagesJson = null;
+            }
+
             response.Data.Add("List", posts);
 
             return response;
