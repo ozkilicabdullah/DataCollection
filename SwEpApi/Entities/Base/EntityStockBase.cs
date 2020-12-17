@@ -37,7 +37,7 @@ namespace SwEpApi.Entities.Base
     }
     public class EntityImages
     {
-        public string ImageUrl { get; set; }
+        public string Url { get; set; }
     }
 
     //    public abstract class EntityStockBase : Row, IIdRow, INameRow

@@ -27,14 +27,14 @@ namespace SwEpApi.Services.Tenants.Base.Erp
                 Errors = new List<string>()
             };
 
-           ActionRequest Action = Payload["Action"] as ActionRequest;
-           StockListForEpRequestParams Params = new StockListForEpRequestParams();
-           Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as StockListForEpRequestParams;
+            ActionRequest Action = Payload["Action"] as ActionRequest;
+            StockListForEpRequestParams Params = new StockListForEpRequestParams();
+            Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as StockListForEpRequestParams;
             response.Errors = Params.ValidateModel(new StockListForEpValidator());
-            if(string.IsNullOrEmpty(Params.Barcode) && 
-                string.IsNullOrEmpty(Params.ModelCode) && 
-                string.IsNullOrEmpty(Params.ProductCode) && 
-                (Params.StartDate==null || Params.EndDate==null))
+            if (string.IsNullOrEmpty(Params.Barcode) &&
+                string.IsNullOrEmpty(Params.ModelCode) &&
+                string.IsNullOrEmpty(Params.ProductCode) &&
+                (Params.StartDate == null || Params.EndDate == null))
             {
                 response.Errors.Add("some parameters are missing");
             }
@@ -45,8 +45,8 @@ namespace SwEpApi.Services.Tenants.Base.Erp
             var dyp = new Dapper.DynamicParameters();
             dyp.Add("pageNo", dbType: DbType.Int32, direction: ParameterDirection.Input, value: Params.pageNo);
             dyp.Add("pageSize", dbType: DbType.Int32, direction: ParameterDirection.Input, value: Params.pageSize);
-            dyp.Add("langCode", dbType: DbType.String, direction: ParameterDirection.Input,size:2, value: Params.LangCode);
-            dyp.Add("priceCurrencyCode", dbType: DbType.String, direction: ParameterDirection.Input,size:3, value: Params.PriceCurrencyCode);
+            dyp.Add("langCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 2, value: Params.LangCode);
+            dyp.Add("priceCurrencyCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 3, value: Params.PriceCurrencyCode);
             dyp.Add("startDate", dbType: DbType.DateTime, direction: ParameterDirection.Input, value: Params.StartDate);
             dyp.Add("endDate", dbType: DbType.DateTime, direction: ParameterDirection.Input, value: Params.EndDate);
             dyp.Add("modelCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 40, value: Params.ModelCode);
@@ -55,15 +55,18 @@ namespace SwEpApi.Services.Tenants.Base.Erp
 
             var posts = await ConnectionService.ScopeAsync(Action.AppKey, cnn =>
            {
-                return cnn.QueryAsync<EntityStockListForEpBase>("sp_SwEpApi_GetStockListForEp", 
-                  param: dyp,                 
-                  commandType: CommandType.StoredProcedure);
-            });
+               return cnn.QueryAsync<EntityStockListForEpBase>("sp_SwEpApi_GetStockListForEp",
+                 param: dyp,
+                 commandType: CommandType.StoredProcedure);
+           });
 
-            foreach (EntityStockListForEpBase cust in posts)
+            if (posts != null)
             {
-                cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);
-                cust.ProductImagesJson = null;
+                foreach (EntityStockListForEpBase cust in posts)
+                {
+                    cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);
+                    cust.ProductImagesJson = null;
+                }
             }
 
             response.Data.Add("List", posts);
