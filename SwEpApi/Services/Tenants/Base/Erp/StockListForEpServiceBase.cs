@@ -5,6 +5,7 @@ using SwEpApi.Helpers;
 using SwEpApi.Model.Request;
 using SwEpApi.Model.Response;
 using SwEpApi.Validator.Erp;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -59,15 +60,28 @@ namespace SwEpApi.Services.Tenants.Base.Erp
                  param: dyp,
                  commandType: CommandType.StoredProcedure);
            });
-
-            if (posts != null)
+            try
             {
-                foreach (EntityStockListForEpBase cust in posts)
+                if (posts != null)
                 {
-                    cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);
-                    cust.ProductImagesJson = null;
+                    foreach (EntityStockListForEpBase cust in posts)
+                    {
+                        if (!string.IsNullOrEmpty(cust.ProductImagesJson))
+                        {
+                            cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);
+                        }
+                        else
+                        {
+                            cust.ProductImages = null;
+                        }
+                        cust.ProductImagesJson = null;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
 
             response.Data.Add("List", posts);
 
