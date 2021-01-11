@@ -158,7 +158,7 @@ namespace SwEpApi
             {
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
                 options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
-                options.SerializerSettings.DateFormatString = "dd.MM.yyyy";
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
