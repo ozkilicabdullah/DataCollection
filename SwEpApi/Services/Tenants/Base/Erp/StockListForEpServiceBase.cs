@@ -66,6 +66,16 @@ namespace SwEpApi.Services.Tenants.Base.Erp
                 {
                     foreach (EntityStockListForEpBase cust in posts)
                     {
+                        List<object> Attributes = new List<object>();
+
+                        Attributes.Add(new { AttributeName = "Sezon", AttributeValue = cust.SeasonName });
+                        Attributes.Add(new { AttributeName = "Renk", AttributeValue = cust.ColorName });
+                        Attributes.Add(new { AttributeName = "Departman", AttributeValue = cust.DepartmentName });
+                        Attributes.Add(new { AttributeName = "Marka", AttributeValue = cust.BrandName });
+                        Attributes.Add(new { AttributeName = "Size", AttributeValue = cust.SizeName });
+
+                        cust.Attributes = Attributes;                        
+
                         if (!string.IsNullOrEmpty(cust.ProductImagesJson))
                         {
                             cust.ProductImages = JsonConvert.DeserializeObject<List<EntityImages>>(cust.ProductImagesJson);

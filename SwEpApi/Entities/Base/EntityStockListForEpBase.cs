@@ -9,6 +9,7 @@ namespace SwEpApi.Entities.Base
     public class EntityStockListForEpBase : EntityStockBase
     {
         public int TotalCount { get; set; }
+        public object Attributes { get; set; }
 
         //public int TotalCount
         //{
