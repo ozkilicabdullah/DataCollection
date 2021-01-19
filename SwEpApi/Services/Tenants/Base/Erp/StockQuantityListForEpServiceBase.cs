@@ -3,6 +3,7 @@ using SwEpApi.Entities.Base;
 using SwEpApi.Helpers;
 using SwEpApi.Model.Request;
 using SwEpApi.Model.Response;
+using SwEpApi.Services.Tenants.Base.Erp.RequestParams;
 using SwEpApi.Validator.Erp;
 using System.Collections.Generic;
 using System.Data;

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using SwEpApi.Services.Tenants.Base.Erp;
+using SwEpApi.Services.Tenants.Base.Erp.RequestParams;
 
 namespace SwEpApi.Validator.Erp
 {
@@ -24,5 +25,17 @@ namespace SwEpApi.Validator.Erp
                 .NotEmpty().WithMessage("PriceCurrencyCode is required.");
         }
 
+    }
+
+    public class StockDetailListForEpValidator : AbstractValidator<StockDetailListForEpRequestParams>
+    {
+        public StockDetailListForEpValidator()
+        {
+            RuleFor(x => x.PriceCurrencyCode)
+                .NotEmpty().WithMessage("PriceCurrencyCode is required.");
+
+            RuleFor(x => x.LangCode)
+                .NotEmpty().WithMessage("LangCode is required.");
+        }
     }
 }
