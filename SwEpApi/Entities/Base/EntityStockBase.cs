@@ -24,6 +24,7 @@ namespace SwEpApi.Entities.Base
         public string Barcode { get; set; }
         public string ProductName { get; set; }
         public string ProductDesc { get; set; }
+        public string ProductUrl { get; set; }
         public string SeasonName { get; set; }
         public string DepartmentName { get; set; }
         public string BrandName { get; set; }
