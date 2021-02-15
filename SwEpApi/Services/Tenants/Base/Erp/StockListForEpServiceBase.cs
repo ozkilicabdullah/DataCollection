@@ -53,6 +53,7 @@ namespace SwEpApi.Services.Tenants.Base.Erp
             dyp.Add("modelCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 40, value: Params.ModelCode);
             dyp.Add("productCode", dbType: DbType.String, direction: ParameterDirection.Input, size: 40, value: Params.ProductCode);
             dyp.Add("barcode", dbType: DbType.String, direction: ParameterDirection.Input, size: 40, value: Params.Barcode);
+            dyp.Add("isActive", dbType: DbType.Boolean, direction: ParameterDirection.Input, value: Params.IsActive);
 
             var posts = await ConnectionService.ScopeAsync(Action.AppKey, cnn =>
            {

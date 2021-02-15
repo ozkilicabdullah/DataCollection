@@ -27,6 +27,7 @@ namespace SwEpApi.Entities.Base
         public string ProductUrl { get; set; }
         public string SeasonName { get; set; }
         public string DepartmentName { get; set; }
+        public string GoogleCategoryCode { get; set; }
         public string BrandName { get; set; }
         public string ColorName { get; set; }
         public string SizeName { get; set; }
