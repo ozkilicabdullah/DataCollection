@@ -23,6 +23,7 @@ namespace SwEpApi.Entities.Base
         public string ProductDesc { get; set; }
         public string ProductSizeTableData { get; set; }
         public string SeasonName { get; set; }
+        public string ManikinInformations { get; set; }
         public string DepartmentName { get; set; }
         public string BrandName { get; set; }
         public string ColorName { get; set; }
