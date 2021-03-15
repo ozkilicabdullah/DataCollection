@@ -3,5 +3,6 @@
     public class EntityStockDetailListForEpBase : EntityStockDetailBase
     {
         public int TotalCount { get; set; }
+        public bool IsConstant { get; set; }
     }
 }
