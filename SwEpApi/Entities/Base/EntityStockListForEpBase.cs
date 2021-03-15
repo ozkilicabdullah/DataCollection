@@ -1,4 +1,5 @@
-﻿using Serenity.Data;
+﻿using Newtonsoft.Json;
+using Serenity.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SwEpApi.Entities.Base
     public class EntityStockListForEpBase : EntityStockBase
     {
         public int TotalCount { get; set; }
+        [JsonIgnore]
+        public string AttributesJson { get; set; }
         public object Attributes { get; set; }
 
         //public int TotalCount
