@@ -1,7 +1,7 @@
 ﻿using DataCollection.Contracts.Entites;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-
+using System;
 
 namespace DataCollection.Contracts.MongoModels
 {
@@ -9,11 +9,12 @@ namespace DataCollection.Contracts.MongoModels
     {
         [BsonId]
         public ObjectId _Id { get; set; }
-        public string UserId { get; set; }
-        public string SessionId { get; set; }
-        public string ProductId { get; set; }
+        public string UserID { get; set; }
+        public string SessionID { get; set; }
+        public string ProductID { get; set; }
         public string Type { get; set; }
         public BasketInfo BasketInfo { get; set; }
+        public DateTime CreatedOn { get; set; }
 
 
     }

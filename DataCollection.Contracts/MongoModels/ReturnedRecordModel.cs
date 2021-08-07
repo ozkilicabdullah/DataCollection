@@ -11,8 +11,8 @@ namespace DataCollection.Contracts.MongoModels
     {
         [BsonId]
         public ObjectId _Id { get; set; }
-        public string SessionId { get; set; }
-        public string UserId { get; set; }
+        public string SessionID { get; set; }
+        public string UserID { get; set; }
         public bool PartialRefund { get; set; }
         public List<string> ProductID { get; set; }
         public DateTime CreatedOn { get; set; }

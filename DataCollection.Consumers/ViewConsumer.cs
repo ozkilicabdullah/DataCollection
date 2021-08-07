@@ -26,8 +26,8 @@ namespace DataCollection.Consumers
                 ViewRecordModel recordModel = new ViewRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
                     Type = Model.Type,
                     Value = Model.Value,
                     ViewRange = Model.ViewRange,

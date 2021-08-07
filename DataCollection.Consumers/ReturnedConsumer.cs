@@ -28,8 +28,8 @@ namespace DataCollection.Consumers
                 ReturnedRecordModel recordModel = new ReturnedRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
                     ProductID = Model.ProductID,
                     PartialRefund = Model.PartialRefund,
                     CreatedOn = DateTime.Now

@@ -36,14 +36,14 @@ namespace DataCollection.Controllers
             {
                 return new LoginReponseModel()
                 {
-                    Data = new Dictionary<string, object>(),
+                    User = new Dictionary<string, object>(),
                     Success = false,
                     Errors = new List<string>() { "Incorrect or missing parameters." }
                 };
             }
             var response = new LoginReponseModel()
             {
-                Data = new Dictionary<string, object>(),
+                User = new Dictionary<string, object>(),
                 Success = false,
                 Errors = new List<string>() { "The username or password is incorrect please try again" }
             };
@@ -52,10 +52,9 @@ namespace DataCollection.Controllers
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(new LoginRequest() { UserName = user.Username, Password = user.Password });
-                response.Data.Add("token", tokenString);
-                response.Data.Add("name", user.Name);
-                response.Data.Add("email", user.Email);
-                response.Data.Add("role", user.Role);
+                response.User.Add("token", tokenString);
+                response.User.Add("name", user.Name);
+                response.User.Add("email", user.Email);
                 response.Success = true;
                 response.Errors.Clear();
             }
@@ -77,7 +76,7 @@ namespace DataCollection.Controllers
         {
             var response = new LoginReponseModel()
             {
-                Data = new Dictionary<string, object>(),
+                User = new Dictionary<string, object>(),
                 Success = true,
                 Errors = new List<string>()
             };

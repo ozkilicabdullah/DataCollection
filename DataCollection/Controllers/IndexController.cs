@@ -50,7 +50,7 @@ namespace DataCollection.Controllers
         //[Route("action")]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<ActionResult<ResponseModel>> ActionRequest([FromBody] ActionRequestModel Request)
+        public async Task<ActionResult<ResponseModel>> ActionRequest([FromBody] ActionRequest Request)
         {
 
             var response = new ResponseModel()
@@ -65,22 +65,24 @@ namespace DataCollection.Controllers
             if (Request.Action == null)
                 throw new Exception("The request is invalid. The 'Action' area cannot be empty.");
 
-            if (Request.Action.Count <= 0)
+            if (Request == null)
                 throw new Exception("The request is invalid. Action must have at least one collection.");
 
-            response.Errors = Request.ValidateModel(new ActionRequestModelValidator());
+            response.Errors = Request.ValidateModel(new ActionValidator());
             response.Success = response.Errors.Count <= 0;
-            var RequestAction = Request.Action[0];
 
             bool isExist = connectionService.GetTenant(Request.AppKey);
             if (!isExist)
-                throw new Exception("The request is invalid.Url is not correct.");
-
+            {
+                response.Success = false;
+                response.Errors.Add("'AppKey' is not correct.");
+                return Unauthorized(response);
+            }
 
             if (response.Success)
             {
-                RequestAction.AppKey = Request.AppKey;
-                response = await Service.Request(RequestAction);
+                Request.AppKey = Request.AppKey;
+                response = await Service.Request(Request);
             }
 
             return Ok(response);

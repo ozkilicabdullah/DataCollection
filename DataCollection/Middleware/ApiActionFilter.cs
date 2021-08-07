@@ -39,20 +39,20 @@ namespace DataCollection.Middleware
         public void OnActionExecuting(ActionExecutingContext context)
         {
             if (context.HttpContext.User.HasClaim(x => x.Type == "user"))
-            { 
+            {
                 object actionRequest = null;
                 //object AppKey = "";
-
                 if (!context.ActionArguments.TryGetValue("Request", out actionRequest))
                     context.Result = new EmptyResult();
 
-                var _actionRequest = context.ActionArguments["Request"] as ActionRequestModel;
-                if (_actionRequest.Action.Count <= 0)
+
+                var _actionRequest = context.ActionArguments["Request"] as ActionRequest;
+                if (_actionRequest.Action == null)
                 {
                     context.Result = new EmptyResult();
                     return;
                 }
-                _actionRequest.AppKey = _actionRequest.Action[0].AppKey;
+                _actionRequest.AppKey = _actionRequest.AppKey;
                 var Identity = context.HttpContext.User.Identity as ClaimsIdentity;
                 var userName = (from c in Identity.Claims
                                 where c.Type == "user"
@@ -64,7 +64,7 @@ namespace DataCollection.Middleware
                 User currentUser = ConnectionService.GetCurrentUser(userName, password);
 
                 var isAllow = false;
-                var action = _actionRequest.Action[0].Action;
+                var action = _actionRequest.Action;
                 if (currentUser != null)
                 {
                     if (currentUser.Role == "superadmin") isAllow = true;

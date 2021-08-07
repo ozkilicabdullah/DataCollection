@@ -9,11 +9,11 @@ namespace DataCollection.Contracts.MongoModels
     {
         [BsonId]
         public ObjectId _Id { get; set; }
-        public string UserId { get; set; }
-        public string ProductId { get; set; }
+        public string UserID { get; set; }
+        public string ProductID { get; set; }
         public string Type { get; set; }
         public WishInfo WishInfo { get; set; }
-        public string SessionId { get; set; }
+        public string SessionID { get; set; }
         public DateTime CreatedOn { get; set; }
 
     }

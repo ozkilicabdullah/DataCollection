@@ -27,15 +27,15 @@ namespace DataCollection.Consumers
                 SuccessFullCheckoutRecordModel recordModel = new SuccessFullCheckoutRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
-                    CampaignId = Model.CampaignId,
-                    CouponId = Model.CouponId,
-                    DeliveryAddressId = Model.DeliveryAddressId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
+                    CampaignID = Model.CampaignID,
+                    CouponID = Model.CouponID,
+                    DeliveryAddressID = Model.DeliveryAddressID,
                     IsFreeShipping = Model.IsFreeShipping,
                     DeliveryType = Model.DeliveryType,
-                    OrderId = Model.OrderId,
-                    PaymentTypeId = Model.PaymentTypeId,
+                    OrderID = Model.OrderID,
+                    PaymentTypeID = Model.PaymentTypeID,
                     Platform = Model.Platform,
                     OrderedItems = Model.OrderedItems,
                     CreatedOn = DateTime.Now

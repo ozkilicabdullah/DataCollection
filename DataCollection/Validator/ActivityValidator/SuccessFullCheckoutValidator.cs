@@ -7,15 +7,15 @@ namespace DataCollection.Validator.ActivityValidator
     {
         public SuccessFullCheckoutValidator()
         {
-            RuleFor(x => x.DeliveryAddressId)
-                .NotEmpty().WithMessage("DeliveryAddressId is required.");
+            RuleFor(x => x.DeliveryAddressID)
+                .NotEmpty().WithMessage("DeliveryAddressID is required.");
             RuleFor(x => x.DeliveryType)
                 .NotEmpty().WithMessage("DeliveryType is required.");
             RuleFor(x => x.OrderedItems)
                 .NotEmpty().WithMessage("OrderedItems is required.");
-            RuleFor(x => x.OrderId)
-                .NotEmpty().WithMessage("OrderId is required.");
-            RuleFor(x => x.PaymentTypeId)
+            RuleFor(x => x.OrderID)
+                .NotEmpty().WithMessage("OrderID is required.");
+            RuleFor(x => x.PaymentTypeID)
                 .NotEmpty().WithMessage("PaymentType is required.");
 
         }

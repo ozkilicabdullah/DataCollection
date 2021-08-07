@@ -35,7 +35,7 @@ namespace DataCollection.Helpers
                     <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:wsv2=""http://wsv2.ers.kkb.com.tr/"">
                         <soapenv:Header>
                             <wsse:Security xmlns:wsse=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"" soapenv:mustUnderstand=""0"">
-                            <wsse:UsernameToken xmlns:wsu=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" wsu:Id=""UsernameToken-1"">
+                            <wsse:UsernameToken xmlns:wsu=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" wsu:ID=""UsernameToken-1"">
                                 <wsse:Username>{2}</wsse:Username>
                                 <wsse:Password Type=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"">{3}</wsse:Password>
                           </wsse:UsernameToken>

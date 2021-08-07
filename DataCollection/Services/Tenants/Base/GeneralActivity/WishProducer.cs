@@ -44,9 +44,10 @@ namespace DataCollection.Services.Tenants.Base
 
             response.Errors = Params.ValidateModel(new WishValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required.");
-
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required.");
+            if (string.IsNullOrEmpty(Params.Type) || (Params.Type != "Add" && Params.Type != "Remove" && !string.IsNullOrEmpty(Params.Type)))
+                response.Errors.Add("Type must be 'Add' or 'Remove'");
             if (Params.Type == "Add")
                 if (Params.WishInfo == null) response.Errors.Add("WishInfo is required.");
                 else

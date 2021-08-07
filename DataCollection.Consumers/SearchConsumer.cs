@@ -28,8 +28,8 @@ namespace DataCollection.Consumers
                 SearchRecordModel recordModel = new SearchRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
                     Value = Model.Value,
                     CreatedOn = DateTime.Now
                 };

@@ -24,15 +24,16 @@ namespace DataCollection.Consumers
             try
             {
                 var collection = ConnectionService.GetTenantCollection(Model.AppKey, CollectionName);
-
+                //throw new Exception("ex");
                 BasketRecordModel recordModel = new BasketRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
                     BasketInfo = Model.BasketInfo,
-                    ProductId = Model.ProductId,
-                    Type = Model.Type
+                    ProductID = Model.ProductID,
+                    Type = Model.Type,
+                    CreatedOn = DateTime.Now
                 };
                 await collection.InsertOneAsync(recordModel);
             }

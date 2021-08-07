@@ -1,10 +1,12 @@
 using DataCollection.Services;
+using GreenPipes;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace DataCollection.Consumers
 {
@@ -39,26 +41,32 @@ namespace DataCollection.Consumers
                     cfg.ReceiveEndpoint("basket_queue", c =>
                     {
                         c.ConfigureConsumer<BasketConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                     cfg.ReceiveEndpoint("returned_queue", c =>
                     {
                         c.ConfigureConsumer<ReturnedConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                     cfg.ReceiveEndpoint("search_queue", c =>
                     {
                         c.ConfigureConsumer<SearchConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                     cfg.ReceiveEndpoint("successfullcheckout_queue", c =>
                     {
                         c.ConfigureConsumer<SuccessFullCheckoutConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                     cfg.ReceiveEndpoint("view_queue", c =>
                     {
                         c.ConfigureConsumer<ViewConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                     cfg.ReceiveEndpoint("wish_queue", c =>
                     {
                         c.ConfigureConsumer<WishConsumer>(contex);
+                        c.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
                     });
                 });
             });

@@ -7,7 +7,7 @@ namespace DataCollection.Entities.Base
 {
     public class DeliveryType
     {
-        public string Id { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
     }
 }

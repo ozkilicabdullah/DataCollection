@@ -29,8 +29,8 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 
             response.Errors = Params.ValidateModel(new ViewValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required");
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required");
             if (!string.IsNullOrEmpty(Params.Value) && (Params.Type != "Product" && Params.Type != "Catalog"))
                 response.Errors.Add("Type property must be 'Product' or 'Catalog'");
 

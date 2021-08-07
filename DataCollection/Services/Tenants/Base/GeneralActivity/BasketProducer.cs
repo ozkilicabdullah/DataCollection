@@ -39,8 +39,11 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
             response.Errors = Params.ValidateModel(new BasketValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required.");
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required.");
+            if (!string.IsNullOrEmpty(Params.Type) && (Params.Type != "Add" && Params.Type != "Remove"))
+                response.Errors.Add("Type property must be 'Product' or 'Catalog'");
+
             if (Params.Type == "Add")
             {
                 if (Params.BasketInfo == null) response.Errors.Add("BasketInfo is required.");

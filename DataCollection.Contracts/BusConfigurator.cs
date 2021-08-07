@@ -17,7 +17,6 @@ namespace DataCollection.Contracts
                     h.Username(RabbitMqConsts.UserName);
                     h.Password(RabbitMqConsts.UserName);
                 });
-
             });
         }
     }

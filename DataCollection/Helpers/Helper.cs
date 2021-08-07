@@ -448,7 +448,7 @@ namespace DataCollection.Helpers
 
             var result = new Dictionary<string, object>
             {
-                { "queueId", identifer },
+                { "queueID", identifer },
                 { "method" , method},
                 { "status", "None" }
             };
@@ -538,7 +538,7 @@ namespace DataCollection.Helpers
             {
 
                 result["method"] = ProcessMethod[0].Value.Job.Method.Name;
-                result["queueId"] = ProcessMethod[0].Value.Job.Args[1].ToString();
+                result["queueID"] = ProcessMethod[0].Value.Job.Args[1].ToString();
                 result["count"] = ProcessMethod.Count;
                 result.Add("startedAt", ProcessMethod[0].Value.StartedAt.Value.ToString("dd.MM.yyyy hh:mm:ss"));
                 result["status"] = Enum.GetName(typeof(Enums.ProcessStatus), Enums.ProcessStatus.Processing);

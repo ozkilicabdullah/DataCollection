@@ -14,7 +14,7 @@ namespace DataCollection.Model.Response
     {
         public bool Success { get; set; }
         public List<string> Errors { get; set; }
-        public Dictionary<string, object> Data { get; set; }
+        public Dictionary<string, object> User { get; set; }
 
     }
 }

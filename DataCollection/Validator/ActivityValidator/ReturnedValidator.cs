@@ -7,8 +7,8 @@ namespace DataCollection.Validator.ActivityValidator
     {
         public ReturnedValidator()
         {
-            //RuleFor(x => x.ProductID)
-            //    .NotEmpty().WithMessage("ProductID is required");
+            RuleFor(x => x.OrderID)
+                .NotEmpty().WithMessage("OrderID is required");
         }
     }
 }

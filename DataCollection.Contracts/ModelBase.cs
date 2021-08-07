@@ -10,7 +10,7 @@ namespace DataCollection.Contracts
     }
     public class ModelActivityBase : ModelBase
     {
-        public string UserId { get; set; }
-        public string SessionId { get; set; }
+        public string UserID { get; set; }
+        public string SessionID { get; set; }
     }
 }

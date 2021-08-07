@@ -27,9 +27,9 @@ namespace DataCollection.Consumers
                 WishRecordModel recordModel = new WishRecordModel
                 {
                     _Id = ObjectId.GenerateNewId(),
-                    SessionId = Model.SessionId,
-                    UserId = Model.UserId,
-                    ProductId = Model.ProductId,
+                    SessionID = Model.SessionID,
+                    UserID = Model.UserID,
+                    ProductID = Model.ProductID,
                     Type = Model.Type,
                     WishInfo = Model.WishInfo,
                     CreatedOn = DateTime.Now

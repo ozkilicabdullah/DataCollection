@@ -7,7 +7,7 @@ namespace DataCollection.Contracts
 {
     public class WishParams : ModelActivityBase
     {
-        public string ProductId { get; set; }
+        public string ProductID { get; set; }
         public string Type { get; set; }
         public WishInfo WishInfo { get; set; }
     }

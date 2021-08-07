@@ -2,6 +2,7 @@
 using DataCollection.Helpers;
 using DataCollection.Model.Request;
 using DataCollection.Model.Response;
+using DataCollection.Validator.ActivityValidator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -35,13 +36,15 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
             #endregion
 
             #region Validations
+            response.Errors = Params.ValidateModel(new ReturnedValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required.");
+
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required.");
 
             if (!Params.PartialRefund && Params.ProductID.Count == 0)
                 response.Errors.Add("ProductID is required.");
-            // response.Errors = Params.ValidateModel(new ReturnedValidator());
+
             response.Success = response.Errors.Count <= 0;
             if (!response.Success) return response;
 

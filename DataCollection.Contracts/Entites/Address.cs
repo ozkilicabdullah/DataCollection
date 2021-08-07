@@ -11,9 +11,9 @@ namespace DataCollection.Entities.Base
         {
             Type = "Individual";
         }
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public string SessionId { get; set; }
+        public int ID { get; set; }
+        public string UserID { get; set; }
+        public string SessionID { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }
         public string Region { get; set; }

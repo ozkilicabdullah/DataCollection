@@ -18,8 +18,6 @@ namespace DataCollection.Services
             _configuration = configuration;
         }
 
-        //private string ConnectionString = configuration.GetValue<string>();//string.Concat("mongodb://localhost:27017/DataCollection?retryWrites=true&w=majority");
-
         /// <summary>
         /// Get Main Database
         /// </summary>
@@ -35,16 +33,26 @@ namespace DataCollection.Services
 
             return database;
         }
-
+        /// <summary>
+        /// Get Current User
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public User GetCurrentUser(string UserName, string Password)
         {
-            IMongoDatabase collectionDb = GetDatabase("DataCollectionTest");
+            IMongoDatabase collectionDb = GetDatabase("DataCollection");
             IMongoCollection<User> collection = collectionDb.GetCollection<User>("Users"); //TableName
             User user = collection.Find(x => x.Username == UserName && x.Password == Password).FirstOrDefault();
 
             return user;
         }
-
+        /// <summary>
+        /// Get Tenant Collection
+        /// </summary>
+        /// <param name="ConnectionKey"></param>
+        /// <param name="CurrentCollectionName"></param>
+        /// <returns></returns>
         public IMongoCollection<IActivityModelBase> GetTenantCollection(string ConnectionKey, string CurrentCollectionName)
         {
             #region Get Main DataCollectionDB
@@ -65,18 +73,22 @@ namespace DataCollection.Services
 
             #endregion
         }
-
+        /// <summary>
+        /// Are there any Tenant for AppKey
+        /// </summary>
+        /// <param name="appKey">Tenant private key</param>
+        /// <returns></returns>
         public bool GetTenant(string appKey)
         {
-            IMongoDatabase collectionDb = GetDatabase("DataCollectionTest");
+            IMongoDatabase collectionDb = GetDatabase("DataCollection");
             IMongoCollection<CollectionBase> collection = collectionDb.GetCollection<CollectionBase>("CollectionBase"); //TableName
-            CollectionBase isExist = collection.Find(x => x.ConnectionKey == SecureOperations.Decrypt(appKey)).FirstOrDefault();
+            CollectionBase isExist = collection.Find(x => x.ConnectionKey == appKey).FirstOrDefault();
             if (isExist != null)
                 return true;
             else
                 return false;
         }
-
+        // Project Setup
         public bool SetupProject()
         {
             #region  ProjectSetup

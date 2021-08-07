@@ -43,8 +43,11 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
             response.Errors = Params.ValidateModel(new SuccessFullCheckoutValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required.");
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required.");
+            if (!string.IsNullOrEmpty(Params.DeliveryType) && (Params.DeliveryType != "Standart" && Params.DeliveryType != "In-store" && Params.DeliveryType != "Fast"))
+                response.Errors.Add("DeliveryType property must be 'Standart' , 'In-store' or 'Fast'");
+
 
             response.Success = response.Errors.Count <= 0;
             if (!response.Success) return response;

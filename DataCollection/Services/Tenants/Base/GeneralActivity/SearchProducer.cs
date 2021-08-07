@@ -37,8 +37,8 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
             response.Errors = Params.ValidateModel(new SearchValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionId) && string.IsNullOrEmpty(Params.UserId))
-                response.Errors.Add("SessionId or UserID  at least one is required");
+            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                response.Errors.Add("SessionID or UserID  at least one is required");
 
             response.Success = response.Errors.Count <= 0;
             if (!response.Success) return response;

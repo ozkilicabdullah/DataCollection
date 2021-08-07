@@ -10,7 +10,7 @@ namespace DataCollection.Contracts.MongoModels
     }
     public interface IActivityModelBase : IRecordModelBase
     {
-        string SessionId { get; set; }
-        string UserId { get; set; }
+        string SessionID { get; set; }
+        string UserID { get; set; }
     }
 }
