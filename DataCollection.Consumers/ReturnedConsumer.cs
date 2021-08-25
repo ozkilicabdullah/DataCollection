@@ -32,7 +32,7 @@ namespace DataCollection.Consumers
                     UserID = Model.UserID,
                     ProductID = Model.ProductID,
                     PartialRefund = Model.PartialRefund,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
                 };
 
                 await collection.InsertOneAsync(recordModel);

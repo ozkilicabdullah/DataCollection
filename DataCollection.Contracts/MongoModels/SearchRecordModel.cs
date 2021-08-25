@@ -14,7 +14,7 @@ namespace DataCollection.Contracts.MongoModels
         public string SessionID { get; set; }
         public string UserID { get; set; }
         public string Value { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
     }
 }

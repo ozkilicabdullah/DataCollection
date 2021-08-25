@@ -32,7 +32,7 @@ namespace DataCollection.Consumers
                     ProductID = Model.ProductID,
                     Type = Model.Type,
                     WishInfo = Model.WishInfo,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
 
                 };
                 await collection.InsertOneAsync(recordModel);

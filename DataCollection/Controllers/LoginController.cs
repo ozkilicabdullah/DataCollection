@@ -32,7 +32,7 @@ namespace DataCollection.Controllers
         [HttpPost]
         public LoginReponseModel Login([FromBody] LoginRequest login)
         {
-            if (login == null || string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
+            if (string.IsNullOrEmpty(login.ClientId))
             {
                 return new LoginReponseModel()
                 {
@@ -48,7 +48,7 @@ namespace DataCollection.Controllers
                 Errors = new List<string>() { "The username or password is incorrect please try again" }
             };
 
-            var user = AuthenticateUser(login);
+            var user = AuthenticateUser(login.ClientId);
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(new LoginRequest() { UserName = user.Username, Password = user.Password });
@@ -62,7 +62,10 @@ namespace DataCollection.Controllers
             return response;
 
         }
-
+        /// <summary>
+        /// Project Setup Test
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public bool Login()
         {
@@ -102,9 +105,9 @@ namespace DataCollection.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User AuthenticateUser(LoginRequest login)
+        private User AuthenticateUser(string clientId)
         {
-            User user = ConnectionService.GetCurrentUser(login.UserName, login.Password);
+            User user = ConnectionService.GetUserForClientId(clientId);
 
             if (user != null)
             {
@@ -113,7 +116,6 @@ namespace DataCollection.Controllers
 
             return null;
         }
-
     }
 
 }

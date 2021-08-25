@@ -15,7 +15,7 @@ namespace DataCollection.Contracts.MongoModels
         public string UserID { get; set; }
         public bool PartialRefund { get; set; }
         public List<string> ProductID { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
     }
 }

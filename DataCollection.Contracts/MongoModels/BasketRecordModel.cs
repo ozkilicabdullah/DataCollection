@@ -14,7 +14,7 @@ namespace DataCollection.Contracts.MongoModels
         public string ProductID { get; set; }
         public string Type { get; set; }
         public BasketInfo BasketInfo { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
 
     }

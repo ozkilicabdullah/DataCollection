@@ -33,7 +33,7 @@ namespace DataCollection.Consumers
                     BasketInfo = Model.BasketInfo,
                     ProductID = Model.ProductID,
                     Type = Model.Type,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
                 };
                 await collection.InsertOneAsync(recordModel);
             }

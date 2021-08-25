@@ -49,25 +49,6 @@ namespace DataCollection
         public void ConfigureServices(IServiceCollection services)
         {
 
-            #region Serilog Elastic Log Configuration
-
-            //Log.Logger = new LoggerConfiguration()
-            //.Enrich.FromLogContext()
-            //.MinimumLevel.Information()
-            //.MinimumLevel.Override("Microsoft.", LogEventLevel.Error | LogEventLevel.Fatal)
-            //.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(Configuration.GetValue<string>("ElasticSearch")))
-            //{
-            //    TemplateName = "serilog-events-template",
-            //    IndexFormat = "DataCollection-log-{0:yyyy.MM}",                
-            //    AutoRegisterTemplate = true,
-            //    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
-            //})            
-            //.CreateLogger();
-
-            //services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
-
-            #endregion
-
             #region Tenants
 
             // Tenant Services

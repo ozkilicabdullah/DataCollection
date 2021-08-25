@@ -31,7 +31,8 @@ namespace DataCollection.Consumers
                     Type = Model.Type,
                     Value = Model.Value,
                     ViewRange = Model.ViewRange,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
+
 
                 };
                 await collection.InsertOneAsync(recordModel);

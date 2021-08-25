@@ -23,7 +23,7 @@ namespace DataCollection.Contracts.MongoModels
         public string Platform { get; set; }
         public string PaymentTypeID { get; set; }
         public ICollection<OrderedItem> OrderedItems { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
     }
 }

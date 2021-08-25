@@ -50,7 +50,7 @@ namespace DataCollection.Services
         /// <summary>
         /// Get Tenant Collection
         /// </summary>
-        /// <param name="ConnectionKey"></param>
+        /// <param name="ConnectionKey"> App Key</param>
         /// <param name="CurrentCollectionName"></param>
         /// <returns></returns>
         public IMongoCollection<IActivityModelBase> GetTenantCollection(string ConnectionKey, string CurrentCollectionName)
@@ -119,6 +119,18 @@ namespace DataCollection.Services
 
             #endregion
             return true;
+        }
+        /// <summary>
+        /// Client Id = Frim AppKey
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <returns></returns>
+        public User GetUserForClientId(string ClientId)
+        {
+            IMongoDatabase collectionDb = GetDatabase("DataCollection");
+            IMongoCollection<User> collection = collectionDb.GetCollection<User>("Users"); //TableName
+            User user = collection.Find(x => x.ClientId == ClientId).FirstOrDefault();
+            return user;
         }
     }
 }

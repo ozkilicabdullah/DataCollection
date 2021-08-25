@@ -16,7 +16,7 @@ namespace DataCollection.Contracts.MongoModels
         public string Type { get; set; }
         public string Value { get; set; }
         public int ViewRange { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
     }
 }
