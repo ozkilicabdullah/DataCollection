@@ -25,7 +25,7 @@ namespace DataCollection.Middleware
     /// <summary>
     /// 
     /// </summary>
-    public class ApiActionFilter : IActionFilter
+    public class ApiActionFilter : IActionFilter 
     {
         private readonly IConfiguration Configuration;
         private readonly IConnectionService ConnectionService;
@@ -67,12 +67,16 @@ namespace DataCollection.Middleware
                 var action = _actionRequest.Action;
                 if (currentUser != null)
                 {
-                    if (currentUser.Role == "superadmin") isAllow = true;
-                    else if (currentUser.Perms != null && currentUser.Perms.Count() > 0)
-                    {
-                        if (currentUser.Perms.Contains(Convert.ToString(action)))
-                            isAllow = true;
-                    }
+                    /// Perms Closed
+                    
+                    //if (currentUser.Role == "superadmin") isAllow = true;
+                    //else if (currentUser.Perms != null && currentUser.Perms.Count() > 0)
+                    //{
+                    //    if (currentUser.Perms.Contains(Convert.ToString(action)))
+                    //        isAllow = true;
+                    //}
+
+                    isAllow = true;
 
                 }
 

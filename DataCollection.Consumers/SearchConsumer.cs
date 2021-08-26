@@ -31,7 +31,7 @@ namespace DataCollection.Consumers
                     SessionID = Model.SessionID,
                     UserID = Model.UserID,
                     Value = Model.Value,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
                 };
                 await collection.InsertOneAsync(recordModel);
 

@@ -18,5 +18,10 @@ namespace DataCollection.Model
         public DateTime LastTokenDate { get; set; }
         public string LastToken { get; set; }
         public List<string> Perms { get; set; }
+        /// <summary>
+        /// App Key
+        /// </summary>
+        public string ClientId { get; set; }
+
     }
 }

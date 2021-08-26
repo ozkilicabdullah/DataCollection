@@ -38,7 +38,7 @@ namespace DataCollection.Consumers
                     PaymentTypeID = Model.PaymentTypeID,
                     Platform = Model.Platform,
                     OrderedItems = Model.OrderedItems,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = Model.CreatedOn
                 };
                 await collection.InsertOneAsync(recordModel);
 
