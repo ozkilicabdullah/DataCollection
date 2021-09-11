@@ -8,6 +8,8 @@ namespace DataCollection.Contracts.Entites
     {
         public string CurrentPrice { get; set; }
         public string OldPrice { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
         public bool InStock { get; set; }
         public bool IsQuickLook { get; set; }
         public int Quantity { get; set; }

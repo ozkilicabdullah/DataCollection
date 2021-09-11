@@ -44,6 +44,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
             if (!string.IsNullOrEmpty(Params.Type) && (Params.Type != "Add" && Params.Type != "Remove"))
                 response.Errors.Add("Type property must be 'Product' or 'Catalog'");
 
+            //Basket Details validation if Type 'Add'
             if (Params.Type == "Add")
             {
                 if (Params.BasketInfo == null) response.Errors.Add("BasketInfo is required.");
@@ -57,6 +58,8 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
                         float.TryParse(Params.BasketInfo.CurrentPrice, out output);
                         if (output == float.NaN) response.Errors.Add("CurrenPrice is not valid.");
                     }
+                    if (string.IsNullOrEmpty(Params.BasketInfo.Color)) response.Errors.Add("Color is required.");
+                    if (string.IsNullOrEmpty(Params.BasketInfo.Size)) response.Errors.Add("Size is required.");
                 }
             }
 
@@ -76,7 +79,5 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
             return response;
         }
-
-
     }
 }

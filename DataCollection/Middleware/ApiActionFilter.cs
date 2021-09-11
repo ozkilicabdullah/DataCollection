@@ -76,6 +76,7 @@ namespace DataCollection.Middleware
                     //        isAllow = true;
                     //}
 
+
                     isAllow = true;
 
                 }

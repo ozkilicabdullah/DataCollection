@@ -12,6 +12,7 @@ namespace DataCollection.Validator.ActivityValidator
                 .NotEmpty().WithMessage("Type is requeired.");
             RuleFor(x => x.ProductID)
                .NotEmpty().WithMessage("ProductID is requeired.");
+
         }
     }
 }

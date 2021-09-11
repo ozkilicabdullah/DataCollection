@@ -48,6 +48,16 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
             if (!string.IsNullOrEmpty(Params.DeliveryType) && (Params.DeliveryType != "Standart" && Params.DeliveryType != "In-store" && Params.DeliveryType != "Fast"))
                 response.Errors.Add("DeliveryType property must be 'Standart' , 'In-store' or 'Fast'");
 
+            if (Params.OrderedItems.Count > 0)
+            {
+                foreach (var item in Params.OrderedItems)
+                {
+                    if (string.IsNullOrEmpty(item.Color)) response.Errors.Add($"Product with {item.ProductID} Id is missing color.");
+                    if (string.IsNullOrEmpty(item.Size)) response.Errors.Add($"Product with {item.ProductID} Id is missing size.");
+                    if (string.IsNullOrEmpty(item.ProductID)) response.Errors.Add($"ProductID is required for OrderedItems");
+                    if (item.Quantity == 0) response.Errors.Add($"Product quantity with ProductID {item.ProductID} must be greater than 0");
+                }
+            }
 
             response.Success = response.Errors.Count <= 0;
             if (!response.Success) return response;

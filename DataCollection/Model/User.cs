@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace DataCollection.Model
 {
+    [BsonIgnoreExtraElements]
     public class User
     {
         [BsonId]

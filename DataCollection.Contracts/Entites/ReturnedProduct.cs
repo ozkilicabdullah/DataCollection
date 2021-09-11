@@ -1,19 +1,15 @@
-﻿using System;
+﻿using DataCollection.Contracts.Entites.Base;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataCollection.Contracts.Entites
 {
-    public class OrderedItem
+    public class ReturnedProduct
     {
-        public OrderedItem()
-        {
-            IsFreeProduct = false;
-        }
         public string ProductID { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
-        public bool IsFreeProduct { get; set; }
-        public int Quantity { get; set; }
+        public ReturnReason ReturnReason { get; set; }
     }
 }

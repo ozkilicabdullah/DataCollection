@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using DataCollection.Contracts.Entites;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace DataCollection.Contracts.MongoModels
         public ObjectId _Id { get; set; }
         public string SessionID { get; set; }
         public string UserID { get; set; }
-        public bool PartialRefund { get; set; }
-        public List<string> ProductID { get; set; }
+        public bool PartialReturn { get; set; }
+        public List<ReturnedProduct> ReturnedProduct { get; set; }
         public string CreatedOn { get; set; }
 
     }

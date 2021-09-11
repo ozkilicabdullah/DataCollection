@@ -30,8 +30,8 @@ namespace DataCollection.Consumers
                     _Id = ObjectId.GenerateNewId(),
                     SessionID = Model.SessionID,
                     UserID = Model.UserID,
-                    ProductID = Model.ProductID,
-                    PartialRefund = Model.PartialRefund,
+                    ReturnedProduct = Model.ReturnedProduct,
+                    PartialReturn = Model.PartialReturn,
                     CreatedOn = Model.CreatedOn
                 };
 
