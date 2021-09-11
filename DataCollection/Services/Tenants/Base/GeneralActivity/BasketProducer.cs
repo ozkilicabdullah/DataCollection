@@ -51,13 +51,8 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
                 else
                 {
                     if (Params.BasketInfo.Quantity == 0) response.Errors.Add("Quantity must be greater than 0");
-                    if (string.IsNullOrEmpty(Params.BasketInfo.CurrentPrice)) response.Errors.Add("CurrentPrice is required");
-                    else
-                    {
-                        float output = float.NaN;
-                        float.TryParse(Params.BasketInfo.CurrentPrice, out output);
-                        if (output == float.NaN) response.Errors.Add("CurrenPrice is not valid.");
-                    }
+                    if (Params.BasketInfo.CurrentPrice == 0) response.Errors.Add("CurrentPrice is required");
+
                     if (string.IsNullOrEmpty(Params.BasketInfo.Color)) response.Errors.Add("Color is required.");
                     if (string.IsNullOrEmpty(Params.BasketInfo.Size)) response.Errors.Add("Size is required.");
                 }

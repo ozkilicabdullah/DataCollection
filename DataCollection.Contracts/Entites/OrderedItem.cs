@@ -15,5 +15,7 @@ namespace DataCollection.Contracts.Entites
         public string Color { get; set; }
         public bool IsFreeProduct { get; set; }
         public int Quantity { get; set; }
+        public double CurrentPrice { get; set; }
+        public double OldPrice { get; set; }
     }
 }

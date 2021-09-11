@@ -9,8 +9,8 @@ namespace DataCollection.Entities.Models
         public string OrderId { get; set; }
         public string SessionId { get; set; }
         public string UserId { get; set; }
-        public string CampaignId { get; set; }
-        public string CouponId { get; set; }
+        public int CampaignId { get; set; }
+        public int CouponId { get; set; }
         public string PaymentId { get; set; }
         public string DeliveryType { get; set; }
         public string DeliveryAddressId { get; set; }

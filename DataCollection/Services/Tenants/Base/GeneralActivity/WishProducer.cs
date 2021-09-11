@@ -50,14 +50,8 @@ namespace DataCollection.Services.Tenants.Base
                 response.Errors.Add("Type must be 'Add' or 'Remove'");
             if (Params.Type == "Add")
                 if (Params.WishInfo == null) response.Errors.Add("WishInfo is required.");
-                else
-                if (string.IsNullOrEmpty(Params.WishInfo.CurrentPrice)) response.Errors.Add("CurrentPrice is required.");
-                else
-                {
-                    float output = float.NaN;
-                    float.TryParse(Params.WishInfo.CurrentPrice, out output);
-                    if (output == float.NaN) response.Errors.Add("CurrenPrice is not valid.");
-                }
+                if (Params.WishInfo.CurrentPrice == 0) response.Errors.Add("CurrentPrice is required.");
+
 
             response.Success = response.Errors.Count <= 0;
             if (!response.Success) return response;

@@ -6,8 +6,8 @@ namespace DataCollection.Contracts.Entites
 {
     public class BasketInfo
     {
-        public string CurrentPrice { get; set; }
-        public string OldPrice { get; set; }
+        public double CurrentPrice { get; set; }
+        public double OldPrice { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
         public bool InStock { get; set; }
