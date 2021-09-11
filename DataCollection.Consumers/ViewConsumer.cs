@@ -38,7 +38,7 @@ namespace DataCollection.Consumers
                 await collection.InsertOneAsync(recordModel);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

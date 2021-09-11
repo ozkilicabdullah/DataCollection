@@ -13,6 +13,7 @@ namespace DataCollection.Services
     public class ConnectionService : IConnectionService
     {
         private readonly IConfiguration _configuration;
+        private string privateKey = "DcSOrsBt0794";
         public ConnectionService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -29,7 +30,7 @@ namespace DataCollection.Services
 
             var settings = MongoClientSettings.FromConnectionString(ConnectionString);
             var client = new MongoClient(settings);
-            var database = client.GetDatabase(CollectionName); //Database Name
+            var database = client.GetDatabase(CollectionName); //Database Names
 
             return database;
         }
@@ -89,8 +90,10 @@ namespace DataCollection.Services
                 return false;
         }
         // Project Setup
-        public bool SetupProject()
+        public bool SetupProject(string tenant)
         {
+            if (string.IsNullOrEmpty(tenant))
+                tenant = "Sorsware";
             #region  ProjectSetup
             IMongoDatabase collectionDb = GetDatabase("DataCollection");
 
@@ -99,11 +102,12 @@ namespace DataCollection.Services
             User newUser = new User
             {
                 _Id = ObjectId.GenerateNewId(),
-                Username = "swadmin",
-                Password = "swadmin",
+                Username = string.Concat(tenant, "SorsBtAdmin"),
+                Password = string.Concat(tenant, "SorsBtAdmin"),
                 Name = "Sorsware Developers",
                 Role = "superadmin",
-                Email = "info@sorsware.com"
+                Email = "info@sorsware.com",
+                ClientId = SecureOperations.Encrypt(string.Concat(tenant, privateKey))
             };
             collectionUser.InsertOne(newUser);
 
@@ -112,8 +116,8 @@ namespace DataCollection.Services
             CollectionBase newRecord = new CollectionBase
             {
                 _Id = ObjectId.GenerateNewId(),
-                TenantName = "Sorsware",
-                ConnectionKey = SecureOperations.Encrypt("SorswareKey")
+                TenantName = tenant,
+                ConnectionKey = SecureOperations.Encrypt(string.Concat(tenant, privateKey))
             };
             collectionBase.InsertOne(newRecord);
 

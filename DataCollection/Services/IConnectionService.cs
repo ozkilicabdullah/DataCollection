@@ -12,6 +12,6 @@ namespace DataCollection.Services
         User GetUserForClientId(string ClientId);
         IMongoCollection<IActivityModelBase> GetTenantCollection(string ConnectionKey, string CurrentCollectionName);
         bool GetTenant(string appKey);
-        bool SetupProject();
+        bool SetupProject(string tenant);
     }
 }

@@ -67,9 +67,9 @@ namespace DataCollection.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public bool Login()
+        public bool Login([FromBody] SetupRequest tenant)
         {
-            return ConnectionService.SetupProject();
+            return ConnectionService.SetupProject(tenant.tenant);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]

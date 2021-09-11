@@ -9,4 +9,8 @@ namespace DataCollection.Model.Request
         public string Password { get; set; }
         public string ClientId { get; set; }
     }
+    public class SetupRequest
+    {
+        public string tenant { get; set; }
+    }
 }
