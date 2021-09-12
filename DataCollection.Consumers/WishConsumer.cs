@@ -4,11 +4,12 @@ using DataCollection.Services;
 using MassTransit;
 using MongoDB.Bson;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataCollection.Consumers
 {
-    public class WishConsumer : IConsumer<WishParams>
+    public class WishConsumer : IConsumer<PackageWish>
     {
         private readonly IConnectionService ConnectionService;
         private string CollectionName = "CollectionWish";
@@ -17,25 +18,31 @@ namespace DataCollection.Consumers
         {
             ConnectionService = connectionService;
         }
-        public async Task Consume(ConsumeContext<WishParams> context)
+        public async Task Consume(ConsumeContext<PackageWish> context)
         {
             var Model = context.Message;
 
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.AppKey, CollectionName);
-                WishRecordModel recordModel = new WishRecordModel
+                var collection = ConnectionService.GetTenantCollection(Model.WishPackage[0].AppKey, CollectionName);
+                List<WishRecordModel> recordModels = new List<WishRecordModel>();
+                foreach (var item in Model.WishPackage)
                 {
-                    _Id = ObjectId.GenerateNewId(),
-                    SessionID = Model.SessionID,
-                    UserID = Model.UserID,
-                    ProductID = Model.ProductID,
-                    Type = Model.Type,
-                    WishInfo = Model.WishInfo,
-                    CreatedOn = Model.CreatedOn
+                    WishRecordModel recordItem = new WishRecordModel
+                    {
+                        _Id = ObjectId.GenerateNewId(),
+                        SessionID = item.SessionID,
+                        UserID = item.UserID,
+                        ProductID = item.ProductID,
+                        Type = item.Type,
+                        WishInfo = item.WishInfo,
+                        CreatedOn = item.CreatedOn
 
-                };
-                await collection.InsertOneAsync(recordModel);
+                    };
+                    recordModels.Add(recordItem);
+                }
+
+                await collection.InsertManyAsync(recordModels);
 
             }
             catch (Exception)

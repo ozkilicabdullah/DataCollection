@@ -19,4 +19,8 @@ namespace DataCollection.Contracts
         //public List<string> ProductID { get; set; }
         public List<ReturnedProduct> ReturnedProduct { get; set; }
     }
+    public class ReturnedPackage
+    {
+        public List<ReturnedParams> PackageReturned { get; set; }
+    }
 }

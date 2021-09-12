@@ -4,11 +4,12 @@ using DataCollection.Services;
 using MassTransit;
 using MongoDB.Bson;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataCollection.Consumers
 {
-    public class ViewConsumer : IConsumer<ViewParams>
+    public class ViewConsumer : IConsumer<ViewPackage>
     {
         private readonly IConnectionService ConnectionService;
         private string CollectionName = "CollectionView";
@@ -17,25 +18,29 @@ namespace DataCollection.Consumers
             ConnectionService = connectionService;
 
         }
-        public async Task Consume(ConsumeContext<ViewParams> context)
+        public async Task Consume(ConsumeContext<ViewPackage> context)
         {
             var Model = context.Message;
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.AppKey, CollectionName);
-                ViewRecordModel recordModel = new ViewRecordModel
+                var collection = ConnectionService.GetTenantCollection(Model.PackageView[0].AppKey, CollectionName);
+                List<ViewRecordModel> recordModels = new List<ViewRecordModel>();
+                foreach (var item in Model.PackageView)
                 {
-                    _Id = ObjectId.GenerateNewId(),
-                    SessionID = Model.SessionID,
-                    UserID = Model.UserID,
-                    Type = Model.Type,
-                    Value = Model.Value,
-                    ViewRange = Model.ViewRange,
-                    CreatedOn = Model.CreatedOn
+                    ViewRecordModel recordItem = new ViewRecordModel
+                    {
+                        _Id = ObjectId.GenerateNewId(),
+                        SessionID = item.SessionID,
+                        UserID = item.UserID,
+                        Type = item.Type,
+                        Value = item.Value,
+                        ViewRange = item.ViewRange,
+                        CreatedOn = item.CreatedOn
+                    };
+                    recordModels.Add(recordItem);
+                }
 
-
-                };
-                await collection.InsertOneAsync(recordModel);
+                await collection.InsertManyAsync(recordModels);
 
             }
             catch (Exception ex)

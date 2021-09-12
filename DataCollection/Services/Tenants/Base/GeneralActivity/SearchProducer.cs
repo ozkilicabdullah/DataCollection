@@ -17,42 +17,67 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 {
     public class SearchProducer : ITenantService
     {
-
+        private readonly IPackageService packageService;
+        public SearchProducer(IPackageService packageService)
+        {
+            this.packageService = packageService;
+        }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
             {
                 Errors = new List<string>()
             };
+            try
+            {
+                #region Model Binding
 
-            #region Model Binding
+                ActionRequest Action = Payload["Action"] as ActionRequest;
+                SearchParams Params = new SearchParams();
+                Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as SearchParams;
 
-            ActionRequest Action = Payload["Action"] as ActionRequest;
-            SearchParams Params = new SearchParams();
-            Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as SearchParams;
+                #endregion
 
-            #endregion
+                #region Validations
 
-            #region Validations
+                response.Errors = Params.ValidateModel(new SearchValidator());
 
-            response.Errors = Params.ValidateModel(new SearchValidator());
+                if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                    response.Errors.Add("SessionID or UserID  at least one is required");
 
-            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
-                response.Errors.Add("SessionID or UserID  at least one is required");
+                response.Success = response.Errors.Count <= 0;
+                if (!response.Success) return response;
 
-            response.Success = response.Errors.Count <= 0;
-            if (!response.Success) return response;
+                #endregion
 
-            #endregion
+                for (int i = 0; i < 500; i++)
+                {
+                    packageService.SearchList().Add(Params);
+                }
+                //packageService.SearchList().Add(Params);
 
-            #region Send Queue
+                if (packageService.SearchList().Count > 499)
+                {
+                    #region Send Queue
+                    SearchPackage package = new SearchPackage();
+                    package.PackageSearch = packageService.SearchList();
 
-            var bus = BusConfigurator.ConfigureBus();
-            string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-            var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-            sendEndPoint.Send<SearchParams>(Params).Wait();
+                    var bus = BusConfigurator.ConfigureBus();
+                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                    sendEndPoint.Send<SearchPackage>(package).Wait();
 
-            #endregion
+                    #endregion
+
+                    packageService.ClearSearchList();// Listenin temizlenmesi
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
             return response;
         }

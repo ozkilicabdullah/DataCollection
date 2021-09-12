@@ -4,11 +4,12 @@ using DataCollection.Services;
 using MassTransit;
 using MongoDB.Bson;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataCollection.Consumers
 {
-    internal class BasketConsumer : IConsumer<BasketParams>
+    internal class BasketConsumer : IConsumer<BasketPackage>
     {
         private readonly IConnectionService ConnectionService;
         private string CollectionName = "CollectionBasket";
@@ -17,25 +18,31 @@ namespace DataCollection.Consumers
         {
             ConnectionService = connectionService;
         }
-        public async Task Consume(ConsumeContext<BasketParams> context)
+        public async Task Consume(ConsumeContext<BasketPackage> context)
         {
             var Model = context.Message;
 
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.AppKey, CollectionName);
+                List<BasketRecordModel> record = new List<BasketRecordModel>();
+                var collection = ConnectionService.GetTenantCollection(Model.package[0].AppKey, CollectionName);
                 //throw new Exception("ex");
-                BasketRecordModel recordModel = new BasketRecordModel
+                foreach (var item in Model.package)
                 {
-                    _Id = ObjectId.GenerateNewId(),
-                    SessionID = Model.SessionID,
-                    UserID = Model.UserID,
-                    BasketInfo = Model.BasketInfo,
-                    ProductID = Model.ProductID,
-                    Type = Model.Type,
-                    CreatedOn = Model.CreatedOn
-                };
-                await collection.InsertOneAsync(recordModel);
+                    BasketRecordModel recordModel = new BasketRecordModel
+                    {
+                        _Id = ObjectId.GenerateNewId(),
+                        SessionID = item.SessionID,
+                        UserID = item.UserID,
+                        BasketInfo = item.BasketInfo,
+                        ProductID = item.ProductID,
+                        Type = item.Type,
+                        CreatedOn = item.CreatedOn
+                    };
+                    record.Add(recordModel);
+                }
+
+                await collection.InsertManyAsync(record);
             }
             catch (Exception)
             {

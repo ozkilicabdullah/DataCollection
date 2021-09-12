@@ -17,4 +17,8 @@ namespace DataCollection.Contracts
         public int PaymentTypeID { get; set; }
         public ICollection<OrderedItem> OrderedItems { get; set; }
     }
+    public class PurchasePackage
+    {
+        public List<SuccessFullCheckoutParams> PackagePurchase { get; set; }
+    }
 }

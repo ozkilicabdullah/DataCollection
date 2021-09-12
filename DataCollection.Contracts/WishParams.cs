@@ -11,4 +11,8 @@ namespace DataCollection.Contracts
         public string Type { get; set; }
         public WishInfo WishInfo { get; set; }
     }
+    public class PackageWish
+    {
+        public List<WishParams> WishPackage { get; set; }
+    }
 }

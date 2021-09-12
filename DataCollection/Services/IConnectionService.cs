@@ -1,8 +1,9 @@
-﻿using DataCollection.Contracts.MongoModels;
+﻿using DataCollection.Contracts;
+using DataCollection.Contracts.MongoModels;
 using DataCollection.Entities.Base;
 using DataCollection.Model;
 using MongoDB.Driver;
-
+using System.Collections.Generic;
 
 namespace DataCollection.Services
 {
@@ -13,5 +14,6 @@ namespace DataCollection.Services
         IMongoCollection<IActivityModelBase> GetTenantCollection(string ConnectionKey, string CurrentCollectionName);
         bool GetTenant(string appKey);
         bool SetupProject(string tenant);
+        List<BasketParams> BasketList();
     }
 }

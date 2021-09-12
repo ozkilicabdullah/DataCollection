@@ -1,4 +1,5 @@
-﻿using DataCollection.Contracts.Entites.Base;
+﻿using DataCollection.Contracts;
+using DataCollection.Contracts.Entites.Base;
 using DataCollection.Contracts.MongoModels;
 using DataCollection.Helpers;
 using DataCollection.Model;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 
 namespace DataCollection.Services
 {
@@ -14,6 +16,7 @@ namespace DataCollection.Services
     {
         private readonly IConfiguration _configuration;
         private string privateKey = "DcSOrsBt0794";
+        public List<BasketParams> ListBasket = new List<BasketParams>();
         public ConnectionService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -135,6 +138,11 @@ namespace DataCollection.Services
             IMongoCollection<User> collection = collectionDb.GetCollection<User>("Users"); //TableName
             User user = collection.Find(x => x.ClientId == ClientId).FirstOrDefault();
             return user;
+        }
+
+        public List<BasketParams> BasketList()
+        {
+            return ListBasket;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace DataCollection
                                       .Where(x => !string.IsNullOrEmpty(x.Namespace))
                                       .Where(x => x.IsClass)
                                       .Where(x => x.Namespace.StartsWith("DataCollection.Services.Tenants")).ToList();
-        }      
+        }
 
         public List<Type> TypesToRegister { get; }
 
@@ -52,7 +52,7 @@ namespace DataCollection
             #region Tenants
 
             // Tenant Services
-            TypesToRegister.ForEach(x => services.AddScoped(x));            
+            TypesToRegister.ForEach(x => services.AddScoped(x));
             services.AddScopedDynamic<ITenantService>(TypesToRegister);
             services.AddScoped(typeof(IServicesProvider<>), typeof(ServicesProvider<>));
 
@@ -66,7 +66,7 @@ namespace DataCollection
             //        ? Configuration.GetConnectionString("RedisDevelopment") : Configuration.GetConnectionString("Redis");
             //    options.InstanceName = "DataCollectionRedisCache";
             //});
-            
+
             services.AddHttpContextAccessor();
 
             services.AddMemoryCache();
@@ -74,9 +74,10 @@ namespace DataCollection
             services.AddSingleton<ITaskServiceClient, TaskServiceClient>();
 
             services.AddSingleton<IConnectionService, ConnectionService>();
+            services.AddSingleton<IPackageService, PackageService>();
 
-            services.Configure<ApiBehaviorOptions>(options => {options.SuppressModelStateInvalidFilter = true; });
-            
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+
             #endregion
 
             #region Antiforgery
@@ -92,7 +93,7 @@ namespace DataCollection
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
-                       .AllowAnyHeader()                        
+                       .AllowAnyHeader()
                        .AllowAnyMethod();
             }));
 
@@ -106,29 +107,30 @@ namespace DataCollection
 
             #region Authentication
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer("Bearer", jwtBearerOptions =>
-            {               
+            {
                 jwtBearerOptions.RequireHttpsMetadata = false;
                 jwtBearerOptions.IncludeErrorDetails = true;
-                jwtBearerOptions.SaveToken = true;                
+                jwtBearerOptions.SaveToken = true;
 
                 jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,                    
+                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     AuthenticationType = "Bearer",
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                 };
-                
+
             });
 
             #endregion
@@ -155,7 +157,7 @@ namespace DataCollection
             app.ConfigureCustomExceptionMiddleware();
             app.UseStaticFiles();
             app.UseMvc();
-            app.UseAuthentication();          
+            app.UseAuthentication();
 
         }
     }

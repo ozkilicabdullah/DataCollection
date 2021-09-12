@@ -10,4 +10,9 @@ namespace DataCollection.Contracts
         public string Value { get; set; }
         public int ViewRange { get; set; }
     }
+
+    public class ViewPackage
+    {
+        public List<ViewParams> PackageView { get; set; }
+    }
 }

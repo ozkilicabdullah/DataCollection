@@ -11,43 +11,68 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 {
     public class ViewProducer : ITenantService
     {
+        private IPackageService packageService;
+        public ViewProducer(IPackageService packageService)
+        {
+            this.packageService = packageService;
+        }
+
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
             {
                 Errors = new List<string>()
             };
-            #region Model Binding
+            try
+            {
+                #region Model Binding
 
-            ActionRequest Action = Payload["Action"] as ActionRequest;
-            ViewParams Params = new ViewParams();
-            Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as ViewParams;
+                ActionRequest Action = Payload["Action"] as ActionRequest;
+                ViewParams Params = new ViewParams();
+                Params = Helper.DictionaryToObject(Params.GetType(), Action.Payload) as ViewParams;
 
-            #endregion
+                #endregion
 
-            #region Validations
+                #region Validations
 
-            response.Errors = Params.ValidateModel(new ViewValidator());
+                response.Errors = Params.ValidateModel(new ViewValidator());
 
-            if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
-                response.Errors.Add("SessionID or UserID  at least one is required");
-            if (!string.IsNullOrEmpty(Params.Value) && (Params.Type != "Product" && Params.Type != "Catalog"))
-                response.Errors.Add("Type property must be 'Product' or 'Catalog'");
+                if (string.IsNullOrWhiteSpace(Params.SessionID) && string.IsNullOrEmpty(Params.UserID))
+                    response.Errors.Add("SessionID or UserID  at least one is required");
+                if (!string.IsNullOrEmpty(Params.Value) && (Params.Type != "Product" && Params.Type != "Catalog"))
+                    response.Errors.Add("Type property must be 'Product' or 'Catalog'");
 
-            response.Success = response.Errors.Count <= 0;
-            if (!response.Success) return response;
+                response.Success = response.Errors.Count <= 0;
+                if (!response.Success) return response;
 
-            #endregion
+                #endregion
 
-            #region Send Queue
+                for (int i = 0; i < 500; i++)
+                {
+                    packageService.ViewList().Add(Params);
+                }
+                //packageService.ViewList().Add(Params);
+                if (packageService.ViewList().Count > 499)
+                {
+                    #region Send Queue
+                    ViewPackage package = new ViewPackage();
+                    package.PackageView = packageService.ViewList();
 
-            var bus = BusConfigurator.ConfigureBus();
-            string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-            var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-            sendEndPoint.Send<ViewParams>(Params).Wait();
+                    var bus = BusConfigurator.ConfigureBus();
+                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                    sendEndPoint.Send<ViewPackage>(package).Wait();
 
-            #endregion
+                    #endregion
 
+                    packageService.ClearViewList();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }     
             return response;
         }
     }
