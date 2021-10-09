@@ -69,11 +69,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 #endregion
 
-                for (int i = 0; i < 500; i++)
-                {
-                    packageService.PurchaseList().Add(Params);
-                }
-                //packageService.PurchaseList().Add(Params);
+                packageService.PurchaseList().Add(Params);
 
                 if (packageService.PurchaseList().Count > 499)
                 {
@@ -96,7 +92,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 throw;
             }
-           
+
             return response;
 
         }

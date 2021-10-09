@@ -61,11 +61,8 @@ namespace DataCollection.Services.Tenants.Base
             if (!response.Success) return response;
 
             #endregion
-            for (int i = 0; i < 500; i++)
-            {
-                packageService.WishList().Add(Params);
-            }
-            //packageService.WishList().Add(Params);
+
+            packageService.WishList().Add(Params);
 
             if (packageService.WishList().Count > 499)
             {

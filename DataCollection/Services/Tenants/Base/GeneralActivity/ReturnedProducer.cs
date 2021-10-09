@@ -76,12 +76,8 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
 
                 #endregion
 
-                for (int i = 0; i < 500; i++)
-                {
-                    packageService.ReturnedList().Add(Params);
 
-                }
-                //packageService.ReturnedList().Add(Params);
+                packageService.ReturnedList().Add(Params);
 
                 if (packageService.ReturnedList().Count > 499)
                 {

@@ -50,11 +50,8 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 #endregion
 
-                for (int i = 0; i < 500; i++)
-                {
-                    packageService.SearchList().Add(Params);
-                }
-                //packageService.SearchList().Add(Params);
+
+                packageService.SearchList().Add(Params);
 
                 if (packageService.SearchList().Count > 499)
                 {

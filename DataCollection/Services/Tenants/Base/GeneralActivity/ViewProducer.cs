@@ -47,11 +47,7 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 
                 #endregion
 
-                for (int i = 0; i < 500; i++)
-                {
-                    packageService.ViewList().Add(Params);
-                }
-                //packageService.ViewList().Add(Params);
+                packageService.ViewList().Add(Params);
                 if (packageService.ViewList().Count > 499)
                 {
                     #region Send Queue
@@ -72,7 +68,7 @@ namespace DataCollection.Services.Tenants.GeneralActivity
             {
 
                 throw;
-            }     
+            }
             return response;
         }
     }

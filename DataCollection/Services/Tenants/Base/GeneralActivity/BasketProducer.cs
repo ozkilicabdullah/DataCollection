@@ -71,11 +71,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
                 #endregion
 
 
-                for (int i = 0; i < 500; i++)
-                {
-                    packageService.BasketList().Add(Params);
-                }
-                //packageService.BasketList().Add(Params);
+                packageService.BasketList().Add(Params);
 
                 if (packageService.BasketList().Count > 499)
                 {
