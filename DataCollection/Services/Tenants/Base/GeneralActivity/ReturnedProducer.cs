@@ -79,7 +79,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
 
                 packageService.ReturnedList().Add(Params);
 
-                if (packageService.ReturnedList().Count > 499)
+                if (packageService.ReturnedList().Count > 49)
                 {
                     #region Send Queue
                     ReturnedPackage package = new ReturnedPackage();

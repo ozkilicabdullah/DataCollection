@@ -64,7 +64,7 @@ namespace DataCollection.Services.Tenants.Base
 
             packageService.WishList().Add(Params);
 
-            if (packageService.WishList().Count > 499)
+            if (packageService.WishList().Count > 49)
             {
                 #region Send Queue
                 PackageWish package = new PackageWish();

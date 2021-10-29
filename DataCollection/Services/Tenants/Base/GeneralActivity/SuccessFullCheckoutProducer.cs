@@ -71,7 +71,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 packageService.PurchaseList().Add(Params);
 
-                if (packageService.PurchaseList().Count > 499)
+                if (packageService.PurchaseList().Count > 49)
                 {
                     #region Send Queue
                     PurchasePackage package = new PurchasePackage();

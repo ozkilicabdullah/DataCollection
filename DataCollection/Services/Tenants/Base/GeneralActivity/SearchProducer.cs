@@ -53,7 +53,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 packageService.SearchList().Add(Params);
 
-                if (packageService.SearchList().Count > 499)
+                if (packageService.SearchList().Count > 299)
                 {
                     #region Send Queue
                     SearchPackage package = new SearchPackage();

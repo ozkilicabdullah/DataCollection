@@ -73,7 +73,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 packageService.BasketList().Add(Params);
 
-                if (packageService.BasketList().Count > 499)
+                if (packageService.BasketList().Count > 99)
                 {
                     #region Send Queue
                     BasketPackage package = new BasketPackage();
