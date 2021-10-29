@@ -25,8 +25,8 @@ namespace DataCollection.Consumers
             try
             {
                 List<BasketRecordModel> record = new List<BasketRecordModel>();
-                var collection = ConnectionService.GetTenantCollection(Model.package[0].AppKey, CollectionName);
-                //throw new Exception("ex");
+                //var collection = ConnectionService.GetTenantCollection(Model.package[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
                 foreach (var item in Model.package)
                 {
                     BasketRecordModel recordModel = new BasketRecordModel

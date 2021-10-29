@@ -25,7 +25,9 @@ namespace DataCollection.Consumers
             try
             {
                 List<ReturnedRecordModel> record = new List<ReturnedRecordModel>();
-                var collection = ConnectionService.GetTenantCollection(Model.PackageReturned[0].AppKey, CollectionName);
+                //var collection = ConnectionService.GetTenantCollection(Model.PackageReturned[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
+
                 foreach (var item in Model.PackageReturned)
                 {
                     ReturnedRecordModel recorditem = new ReturnedRecordModel

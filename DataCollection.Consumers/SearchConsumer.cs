@@ -24,7 +24,8 @@ namespace DataCollection.Consumers
 
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.PackageSearch[0].AppKey, CollectionName);
+                //var collection = ConnectionService.GetTenantCollection(Model.PackageSearch[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
                 List<SearchRecordModel> recordModel = new List<SearchRecordModel>();
                 foreach (var item in Model.PackageSearch)
                 {

@@ -24,7 +24,8 @@ namespace DataCollection.Consumers
 
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.PackagePurchase[0].AppKey, CollectionName);
+                //var collection = ConnectionService.GetTenantCollection(Model.PackagePurchase[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
                 List<SuccessFullCheckoutRecordModel> recordModel = new List<SuccessFullCheckoutRecordModel>();
                 foreach (var item in Model.PackagePurchase)
                 {

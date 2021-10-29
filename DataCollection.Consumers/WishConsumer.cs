@@ -24,7 +24,8 @@ namespace DataCollection.Consumers
 
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.WishPackage[0].AppKey, CollectionName);
+                //var collection = ConnectionService.GetTenantCollection(Model.WishPackage[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
                 List<WishRecordModel> recordModels = new List<WishRecordModel>();
                 foreach (var item in Model.WishPackage)
                 {

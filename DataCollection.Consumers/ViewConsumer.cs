@@ -23,7 +23,8 @@ namespace DataCollection.Consumers
             var Model = context.Message;
             try
             {
-                var collection = ConnectionService.GetTenantCollection(Model.PackageView[0].AppKey, CollectionName);
+                //var collection = ConnectionService.GetTenantCollection(Model.PackageView[0].AppKey, CollectionName);
+                var collection = ConnectionService.GetBaseCollection(CollectionName);
                 List<ViewRecordModel> recordModels = new List<ViewRecordModel>();
                 foreach (var item in Model.PackageView)
                 {
