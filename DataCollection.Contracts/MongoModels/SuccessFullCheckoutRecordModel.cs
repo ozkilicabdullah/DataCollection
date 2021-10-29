@@ -24,6 +24,6 @@ namespace DataCollection.Contracts.MongoModels
         public int PaymentTypeID { get; set; }
         public ICollection<OrderedItem> OrderedItems { get; set; }
         public string CreatedOn { get; set; }
-
+        public string AppKey { get; set; }
     }
 }

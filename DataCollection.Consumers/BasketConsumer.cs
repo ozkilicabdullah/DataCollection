@@ -37,7 +37,8 @@ namespace DataCollection.Consumers
                         BasketInfo = item.BasketInfo,
                         ProductID = item.ProductID,
                         Type = item.Type,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
                     };
                     record.Add(recordModel);
                 }

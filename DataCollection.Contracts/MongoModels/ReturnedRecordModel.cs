@@ -17,6 +17,8 @@ namespace DataCollection.Contracts.MongoModels
         public bool PartialReturn { get; set; }
         public List<ReturnedProduct> ReturnedProduct { get; set; }
         public string CreatedOn { get; set; }
+        public string AppKey { get; set; }
+
 
     }
 }

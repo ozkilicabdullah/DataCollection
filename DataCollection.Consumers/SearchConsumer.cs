@@ -34,7 +34,8 @@ namespace DataCollection.Consumers
                         SessionID = item.SessionID,
                         UserID = item.UserID,
                         Value = item.Value,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
                     };
                     recordModel.Add(recordItem);
                 }

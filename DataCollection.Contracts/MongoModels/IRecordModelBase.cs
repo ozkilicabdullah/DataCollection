@@ -7,6 +7,7 @@ namespace DataCollection.Contracts.MongoModels
     {
         [BsonId]
         ObjectId _Id { get; set; }
+        string AppKey { get; set; }
     }
     public interface IActivityModelBase : IRecordModelBase
     {

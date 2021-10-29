@@ -36,7 +36,8 @@ namespace DataCollection.Consumers
                         ProductID = item.ProductID,
                         Type = item.Type,
                         WishInfo = item.WishInfo,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
 
                     };
                     recordModels.Add(recordItem);

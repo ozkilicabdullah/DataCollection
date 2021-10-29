@@ -42,7 +42,8 @@ namespace DataCollection.Consumers
                         PaymentTypeID = item.PaymentTypeID,
                         Platform = item.Platform,
                         OrderedItems = item.OrderedItems,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
                     };
                     recordModel.Add(recordItem);
                 }

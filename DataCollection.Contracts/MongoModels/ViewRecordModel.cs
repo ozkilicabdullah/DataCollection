@@ -16,6 +16,7 @@ namespace DataCollection.Contracts.MongoModels
         public string Type { get; set; }
         public string Value { get; set; }
         public int ViewRange { get; set; }
+        public string AppKey { get; set; }
         public string CreatedOn { get; set; }
 
     }

@@ -77,6 +77,7 @@ namespace DataCollection.Services
 
             #endregion
         }
+
         /// <summary>
         /// Are there any Tenant for AppKey
         /// </summary>
@@ -143,6 +144,14 @@ namespace DataCollection.Services
         public List<BasketParams> BasketList()
         {
             return ListBasket;
+        }
+
+        public IMongoCollection<IActivityModelBase> GetBaseCollection(string CurrentCollectionName)
+        {
+            IMongoDatabase collectionDb = GetDatabase("DcBulkData");
+            IMongoCollection<IActivityModelBase> currentCollection = collectionDb.GetCollection<IActivityModelBase>(CurrentCollectionName);
+            return currentCollection;
+
         }
     }
 }

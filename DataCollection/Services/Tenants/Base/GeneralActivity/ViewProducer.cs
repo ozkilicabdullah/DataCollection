@@ -47,8 +47,10 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 
                 #endregion
 
-                packageService.ViewList().Add(Params);
-                if (packageService.ViewList().Count > 499)
+                    packageService.ViewList().Add(Params);
+                
+                int listCount = packageService.ViewList().Count;
+                if (listCount > 499)
                 {
                     #region Send Queue
                     ViewPackage package = new ViewPackage();

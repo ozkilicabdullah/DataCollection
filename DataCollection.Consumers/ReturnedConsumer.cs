@@ -35,7 +35,8 @@ namespace DataCollection.Consumers
                         UserID = item.UserID,
                         ReturnedProduct = item.ReturnedProduct,
                         PartialReturn = item.PartialReturn,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
                     };
                     record.Add(recorditem);
                 }

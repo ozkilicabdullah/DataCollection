@@ -15,6 +15,7 @@ namespace DataCollection.Contracts.MongoModels
         public string Type { get; set; }
         public BasketInfo BasketInfo { get; set; }
         public string CreatedOn { get; set; }
+        public string AppKey { get; set; }
 
 
     }

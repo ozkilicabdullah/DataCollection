@@ -35,7 +35,8 @@ namespace DataCollection.Consumers
                         Type = item.Type,
                         Value = item.Value,
                         ViewRange = item.ViewRange,
-                        CreatedOn = item.CreatedOn
+                        CreatedOn = item.CreatedOn,
+                        AppKey = item.AppKey
                     };
                     recordModels.Add(recordItem);
                 }

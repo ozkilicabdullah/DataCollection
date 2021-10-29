@@ -15,6 +15,7 @@ namespace DataCollection.Contracts.MongoModels
         public WishInfo WishInfo { get; set; }
         public string SessionID { get; set; }
         public string CreatedOn { get; set; }
+        public string AppKey { get; set; }
 
     }
 }
