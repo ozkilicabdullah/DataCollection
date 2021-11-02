@@ -3,6 +3,7 @@ using DataCollection.Helpers;
 using DataCollection.Model.Request;
 using DataCollection.Model.Response;
 using DataCollection.Validator.NewFolder.ActivityValidator;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,10 +12,13 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 {
     public class ViewProducer : ITenantService
     {
-        private IPackageService packageService;
-        public ViewProducer(IPackageService packageService)
+        private readonly IPackageService packageService;
+        private readonly IConfiguration _configuration;
+
+        public ViewProducer(IPackageService packageService, IConfiguration configuration)
         {
             this.packageService = packageService;
+            _configuration = configuration;
         }
 
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
@@ -47,10 +51,12 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 
                 #endregion
 
-                    packageService.ViewList().Add(Params);
-                
+                packageService.ViewList().Add(Params);
+
+                int ListLimit = _configuration.GetValue<int>("ListLimitView");
                 int listCount = packageService.ViewList().Count;
-                if (listCount > 499)
+
+                if (listCount > ListLimit)
                 {
                     #region Send Queue
                     ViewPackage package = new ViewPackage();

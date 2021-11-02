@@ -18,10 +18,14 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
     public class SearchProducer : ITenantService
     {
         private readonly IPackageService packageService;
-        public SearchProducer(IPackageService packageService)
+        private readonly IConfiguration _configuration;
+
+        public SearchProducer(IPackageService packageService, IConfiguration configuration)
         {
             this.packageService = packageService;
+            _configuration = configuration;
         }
+
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
@@ -52,8 +56,9 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
 
                 packageService.SearchList().Add(Params);
+                int ListLimit = _configuration.GetValue<int>("ListLimitSearch");
 
-                if (packageService.SearchList().Count > 299)
+                if (packageService.SearchList().Count > ListLimit)
                 {
                     #region Send Queue
                     SearchPackage package = new SearchPackage();

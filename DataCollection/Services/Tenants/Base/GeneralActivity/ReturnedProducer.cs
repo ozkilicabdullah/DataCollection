@@ -4,6 +4,7 @@ using DataCollection.Helpers;
 using DataCollection.Model.Request;
 using DataCollection.Model.Response;
 using DataCollection.Validator.ActivityValidator;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,14 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
     public class ReturnedProducer : ITenantService
     {
         private readonly IPackageService packageService;
-        public ReturnedProducer(IPackageService packageService)
+        private readonly IConfiguration _configuration;
+
+        public ReturnedProducer(IPackageService packageService, IConfiguration configuration)
         {
             this.packageService = packageService;
+            _configuration = configuration;
         }
+
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
@@ -78,8 +83,9 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
 
 
                 packageService.ReturnedList().Add(Params);
+                int ListLimit = _configuration.GetValue<int>("ListLimitReturned");
 
-                if (packageService.ReturnedList().Count > 49)
+                if (packageService.ReturnedList().Count > ListLimit)
                 {
                     #region Send Queue
                     ReturnedPackage package = new ReturnedPackage();

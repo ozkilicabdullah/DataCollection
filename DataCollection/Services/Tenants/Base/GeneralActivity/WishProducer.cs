@@ -5,6 +5,7 @@ using DataCollection.Model.Request;
 using DataCollection.Model.Response;
 using DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels;
 using DataCollection.Validator.ActivityValidator;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,12 @@ namespace DataCollection.Services.Tenants.Base
     public class WishProducer : ITenantService
     {
         private readonly IPackageService packageService;
-        public WishProducer(IPackageService packageService)
+        private readonly IConfiguration _configuration;
+
+        public WishProducer(IPackageService packageService, IConfiguration configuration)
         {
             this.packageService = packageService;
+            _configuration = configuration;
         }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
@@ -63,8 +67,9 @@ namespace DataCollection.Services.Tenants.Base
             #endregion
 
             packageService.WishList().Add(Params);
+            int ListLimit = _configuration.GetValue<int>("ListLimitWish");
 
-            if (packageService.WishList().Count > 49)
+            if (packageService.WishList().Count > ListLimit)
             {
                 #region Send Queue
                 PackageWish package = new PackageWish();

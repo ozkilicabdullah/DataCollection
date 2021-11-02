@@ -6,6 +6,7 @@ using DataCollection.Model.Request;
 using DataCollection.Model.Response;
 using DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels;
 using DataCollection.Validator.ActivityValidator;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,12 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
     public class SuccessFullCheckoutProducer : ITenantService
     {
         private readonly IPackageService packageService;
-        public SuccessFullCheckoutProducer(IPackageService packageService)
+        private readonly IConfiguration _configuration;
+
+        public SuccessFullCheckoutProducer(IPackageService packageService, IConfiguration configuration)
         {
             this.packageService = packageService;
+            _configuration = configuration;
         }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
@@ -70,8 +74,9 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
                 #endregion
 
                 packageService.PurchaseList().Add(Params);
+                int ListLimit = _configuration.GetValue<int>("ListLimitPurchase");
 
-                if (packageService.PurchaseList().Count > 49)
+                if (packageService.PurchaseList().Count > 49 || 1 == 1)
                 {
                     #region Send Queue
                     PurchasePackage package = new PurchasePackage();
