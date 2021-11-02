@@ -76,7 +76,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
                 packageService.PurchaseList().Add(Params);
                 int ListLimit = _configuration.GetValue<int>("ListLimitPurchase");
 
-                if (packageService.PurchaseList().Count > 49 || 1 == 1)
+                if (packageService.PurchaseList().Count > ListLimit)
                 {
                     #region Send Queue
                     PurchasePackage package = new PurchasePackage();
