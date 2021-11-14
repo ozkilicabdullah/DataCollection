@@ -3,27 +3,18 @@ using DataCollection.Contracts.Entites;
 using DataCollection.Helpers;
 using DataCollection.Model.Request;
 using DataCollection.Model.Response;
-using DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels;
 using DataCollection.Validator.ActivityValidator;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace DataCollection.Services.Tenants.Base
 {
     public class WishProducer : ITenantService
     {
-        private readonly IPackageService packageService;
-        private readonly IConfiguration _configuration;
 
-        public WishProducer(IPackageService packageService, IConfiguration configuration)
-        {
-            this.packageService = packageService;
-            _configuration = configuration;
-        }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
 
@@ -66,25 +57,14 @@ namespace DataCollection.Services.Tenants.Base
 
             #endregion
 
-            packageService.WishList().Add(Params);
-            int ListLimit = _configuration.GetValue<int>("ListLimitWish");
+            #region Send Queue
 
-            if (packageService.WishList().Count > ListLimit)
-            {
-                #region Send Queue
-                PackageWish package = new PackageWish();
-                package.WishPackage = packageService.WishList();
+            var bus = BusConfigurator.ConfigureBus();
+            string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+            var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+            sendEndPoint.Send<WishParams>(Params).Wait();
 
-                var bus = BusConfigurator.ConfigureBus();
-                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                sendEndPoint.Send<PackageWish>(package).Wait();
-
-                #endregion
-                packageService.ClearWishList();
-            }
-
-
+            #endregion
 
             return response;
         }

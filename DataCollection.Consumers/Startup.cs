@@ -1,3 +1,4 @@
+using DataCollection.Consumers.Service.PackageService;
 using DataCollection.Services;
 using GreenPipes;
 using MassTransit;
@@ -75,6 +76,7 @@ namespace DataCollection.Consumers
 
 
             services.AddScoped<IConnectionService, ConnectionService>();
+            services.AddSingleton<IPackageService, PackageService>();
 
         }
 

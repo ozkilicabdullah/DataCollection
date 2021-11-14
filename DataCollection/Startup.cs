@@ -74,7 +74,6 @@ namespace DataCollection
             services.AddSingleton<ITaskServiceClient, TaskServiceClient>();
 
             services.AddSingleton<IConnectionService, ConnectionService>();
-            services.AddSingleton<IPackageService, PackageService>();
 
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 

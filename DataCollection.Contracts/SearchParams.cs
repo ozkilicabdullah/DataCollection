@@ -8,8 +8,4 @@ namespace DataCollection.Contracts
     {
         public string Value { get; set; }
     }
-    public class SearchPackage
-    {
-        public List<SearchParams> PackageSearch { get; set; }
-    }
 }

@@ -49,7 +49,7 @@ namespace DataCollection.Controllers
         /// </summary>
         //[Route("action")]
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<ResponseModel>> ActionRequest([FromBody] ActionRequest Request)
         {
 

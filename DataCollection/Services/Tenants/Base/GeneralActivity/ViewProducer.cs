@@ -12,15 +12,6 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 {
     public class ViewProducer : ITenantService
     {
-        private readonly IPackageService packageService;
-        private readonly IConfiguration _configuration;
-
-        public ViewProducer(IPackageService packageService, IConfiguration configuration)
-        {
-            this.packageService = packageService;
-            _configuration = configuration;
-        }
-
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
@@ -51,26 +42,15 @@ namespace DataCollection.Services.Tenants.GeneralActivity
 
                 #endregion
 
-                packageService.ViewList().Add(Params);
+                #region Send Queue
 
-                int ListLimit = _configuration.GetValue<int>("ListLimitView");
-                int listCount = packageService.ViewList().Count;
+                var bus = BusConfigurator.ConfigureBus();
+                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                sendEndPoint.Send<ViewParams>(Params).Wait();
 
-                if (listCount > ListLimit)
-                {
-                    #region Send Queue
-                    ViewPackage package = new ViewPackage();
-                    package.PackageView = packageService.ViewList();
+                #endregion
 
-                    var bus = BusConfigurator.ConfigureBus();
-                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                    sendEndPoint.Send<ViewPackage>(package).Wait();
-
-                    #endregion
-
-                    packageService.ClearViewList();
-                }
             }
             catch (Exception)
             {

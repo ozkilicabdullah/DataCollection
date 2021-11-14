@@ -4,8 +4,6 @@ using DataCollection.Helpers;
 using DataCollection.Model.Request;
 using DataCollection.Model.Response;
 using DataCollection.Validator.ActivityValidator;
-using MassTransit;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,14 +13,7 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 {
     public class BasketProducer : ITenantService
     {
-        private readonly IPackageService packageService;
-        private readonly IConfiguration _configuration;
 
-        public BasketProducer(IPackageService packageService, IConfiguration configuration)
-        {
-            this.packageService = packageService;
-            _configuration = configuration;
-        }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
@@ -73,23 +64,16 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 #endregion
 
-                packageService.BasketList().Add(Params);
-                int ListLimit = _configuration.GetValue<int>("ListLimitBasket");
 
-                if (packageService.BasketList().Count > ListLimit)
-                {
-                    #region Send Queue
-                    BasketPackage package = new BasketPackage();
-                    package.package = packageService.BasketList();
+                #region Send Queue
 
-                    var bus = BusConfigurator.ConfigureBus();
-                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                    sendEndPoint.Send<BasketPackage>(package).Wait();
+                var bus = BusConfigurator.ConfigureBus();
+                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                sendEndPoint.Send<BasketParams>(Params).Wait();
 
-                    packageService.ClearBasketList();
-                    #endregion
-                }
+                #endregion
+
 
             }
             catch (Exception ex)

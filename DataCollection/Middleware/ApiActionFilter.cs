@@ -25,7 +25,7 @@ namespace DataCollection.Middleware
     /// <summary>
     /// 
     /// </summary>
-    public class ApiActionFilter : IActionFilter 
+    public class ApiActionFilter : IActionFilter
     {
         private readonly IConfiguration Configuration;
         private readonly IConnectionService ConnectionService;
@@ -38,10 +38,10 @@ namespace DataCollection.Middleware
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.HttpContext.User.HasClaim(x => x.Type == "user"))
+            //Token kaldırıldı
+            if (context.HttpContext.User.HasClaim(x => x.Type == "user") || 1 == 1)
             {
                 object actionRequest = null;
-                //object AppKey = "";
                 if (!context.ActionArguments.TryGetValue("Request", out actionRequest))
                     context.Result = new EmptyResult();
 
@@ -53,22 +53,38 @@ namespace DataCollection.Middleware
                     return;
                 }
                 _actionRequest.AppKey = _actionRequest.AppKey;
-                var Identity = context.HttpContext.User.Identity as ClaimsIdentity;
-                var userName = (from c in Identity.Claims
-                                where c.Type == "user"
-                                select c.Value).FirstOrDefault();
-                var password = (from c in Identity.Claims
-                                where c.Type == "password"
-                                select c.Value).FirstOrDefault();
+                //var action = _actionRequest.Action; --> Perms Conntrol
 
-                User currentUser = ConnectionService.GetCurrentUser(userName, password);
+                var host = context.HttpContext.Request.Host.Value;
 
+                //var Identity = context.HttpContext.User.Identity as ClaimsIdentity;
+                //var userName = (from c in Identity.Claims
+                //                where c.Type == "user"
+                //                select c.Value).FirstOrDefault();
+                //var password = (from c in Identity.Claims
+                //                where c.Type == "password"
+                //                select c.Value).FirstOrDefault();
+
+                User currentUser = ConnectionService.GetUserForClientId(_actionRequest.AppKey);
+                bool isAllowDomain = false;
                 var isAllow = false;
-                var action = _actionRequest.Action;
-                if (currentUser != null)
+
+                //Domain Doğrulama --> Redis'ten yapılacak
+                string domainString = Configuration.GetValue<string>(currentUser.Username);
+                if (!string.IsNullOrEmpty(domainString))
                 {
-                    /// Perms Closed
-                    
+                    string[] domainList = domainString.Split(',');
+                    foreach (var item in domainList)
+                    {
+                        if (host.Contains(item))
+                            isAllowDomain = true;
+                    }
+                }
+
+                if (currentUser != null && isAllowDomain)
+                {
+                    /// Perms Closed --> kullanıcı izinli oldıuğu aksiyonlar için kullanılırı
+
                     //if (currentUser.Role == "superadmin") isAllow = true;
                     //else if (currentUser.Perms != null && currentUser.Perms.Count() > 0)
                     //{

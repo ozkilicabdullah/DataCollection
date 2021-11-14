@@ -16,14 +16,6 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 {
     public class SuccessFullCheckoutProducer : ITenantService
     {
-        private readonly IPackageService packageService;
-        private readonly IConfiguration _configuration;
-
-        public SuccessFullCheckoutProducer(IPackageService packageService, IConfiguration configuration)
-        {
-            this.packageService = packageService;
-            _configuration = configuration;
-        }
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
             var response = new ResponseModel
@@ -73,24 +65,15 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 #endregion
 
-                packageService.PurchaseList().Add(Params);
-                int ListLimit = _configuration.GetValue<int>("ListLimitPurchase");
+                #region Send Queue
 
-                if (packageService.PurchaseList().Count > ListLimit)
-                {
-                    #region Send Queue
-                    PurchasePackage package = new PurchasePackage();
-                    package.PackagePurchase = packageService.PurchaseList();
+                var bus = BusConfigurator.ConfigureBus();
+                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                sendEndPoint.Send<SuccessFullCheckoutParams>(Params).Wait();
 
-                    var bus = BusConfigurator.ConfigureBus();
-                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                    sendEndPoint.Send<PurchasePackage>(package).Wait();
+                #endregion
 
-
-                    packageService.ClearPurchaseList();
-                    #endregion
-                }
             }
             catch (Exception)
             {

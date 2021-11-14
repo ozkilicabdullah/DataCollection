@@ -1,10 +1,11 @@
 ﻿using DataCollection.Contracts;
+using DataCollection.Contracts.MongoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataCollection.Services
+namespace DataCollection.Consumers.Service.PackageService
 {
     public interface IPackageService
     {
@@ -21,7 +22,6 @@ namespace DataCollection.Services
         void ClearWishList();
         void ClearPurchaseList();
     }
-
     public class PackageService : IPackageService
     {
         public List<BasketParams> ListBasket = new List<BasketParams>();

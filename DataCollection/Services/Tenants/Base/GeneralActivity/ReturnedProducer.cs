@@ -14,14 +14,6 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
 {
     public class ReturnedProducer : ITenantService
     {
-        private readonly IPackageService packageService;
-        private readonly IConfiguration _configuration;
-
-        public ReturnedProducer(IPackageService packageService, IConfiguration configuration)
-        {
-            this.packageService = packageService;
-            _configuration = configuration;
-        }
 
         public async Task<ResponseModel> Execute(Dictionary<string, object> Payload, string Identifer)
         {
@@ -81,24 +73,15 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity.RequestModels
 
                 #endregion
 
+                #region Send Queue
 
-                packageService.ReturnedList().Add(Params);
-                int ListLimit = _configuration.GetValue<int>("ListLimitReturned");
+                var bus = BusConfigurator.ConfigureBus();
+                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                sendEndPoint.Send<ReturnedParams>(Params).Wait();
 
-                if (packageService.ReturnedList().Count > ListLimit)
-                {
-                    #region Send Queue
-                    ReturnedPackage package = new ReturnedPackage();
-                    package.PackageReturned = packageService.ReturnedList();
-                    var bus = BusConfigurator.ConfigureBus();
-                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                    sendEndPoint.Send<ReturnedPackage>(package).Wait();
+                #endregion
 
-                    #endregion
-                    // Listeyi temizle
-                    packageService.ClearReturnedList();
-                }
             }
             catch (Exception)
             {

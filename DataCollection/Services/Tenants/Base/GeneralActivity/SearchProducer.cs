@@ -17,12 +17,10 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 {
     public class SearchProducer : ITenantService
     {
-        private readonly IPackageService packageService;
         private readonly IConfiguration _configuration;
 
-        public SearchProducer(IPackageService packageService, IConfiguration configuration)
+        public SearchProducer(IConfiguration configuration)
         {
-            this.packageService = packageService;
             _configuration = configuration;
         }
 
@@ -54,25 +52,16 @@ namespace DataCollection.Services.Tenants.Base.GeneralActivity
 
                 #endregion
 
+                #region Send Queue
 
-                packageService.SearchList().Add(Params);
-                int ListLimit = _configuration.GetValue<int>("ListLimitSearch");
+                var bus = BusConfigurator.ConfigureBus();
+                string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
+                var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
+                sendEndPoint.Send<SearchParams>(Params).Wait();
 
-                if (packageService.SearchList().Count > ListLimit)
-                {
-                    #region Send Queue
-                    SearchPackage package = new SearchPackage();
-                    package.PackageSearch = packageService.SearchList();
+                #endregion
 
-                    var bus = BusConfigurator.ConfigureBus();
-                    string hostQueue = string.Concat(RabbitMqConsts.RabbitMqUri, Action.Action.ToLower(), "_queue");
-                    var sendEndPoint = bus.GetSendEndpoint(new Uri(hostQueue)).Result;
-                    sendEndPoint.Send<SearchPackage>(package).Wait();
 
-                    #endregion
-
-                    packageService.ClearSearchList();// Listenin temizlenmesi
-                }
             }
             catch (Exception)
             {
