@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataCollection.Contracts\DataCollection.Contracts.csproj" />
+    <ProjectReference Include="..\DataCollection.Entities\DataCollection.Entities.csproj" />
     <ProjectReference Include="..\DataCollection\DataCollection.Producer.csproj" />
   </ItemGroup>
 
